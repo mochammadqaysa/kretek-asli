@@ -1,145 +1,105 @@
-<!DOCTYPE html>
 <!--
 =========================================================
-* Argon Dashboard 2 PRO - v2.0.4
+* Material Dashboard 3 - v3.2.0
 =========================================================
 
-* Product Page:  https://www.creative-tim.com/product/argon-dashboard-pro 
+* Product Page: https://www.creative-tim.com/product/material-dashboard
 * Copyright 2024 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
 * Coded by Creative Tim
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
---><html lang="en">
+-->
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="favicons/img-apple-icon.png">
-  <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/favicon.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
   <title>
-    Login | Pengadilan Negeri Bale Bandung  
+    Material Dashboard 3 by Creative Tim
   </title>
-  <!-- Extra details for Live View on GitHub Pages -->
-  <!-- Canonical SEO -->
-  <!--  Social tags      -->
-  <meta name="keywords" content="creative tim, html dashboard, html css dashboard, web dashboard, bootstrap 5 dashboard, bootstrap 5, css3 dashboard, bootstrap 5 admin, Argon Dashboard bootstrap 5 dashboard, frontend, responsive bootstrap 5 dashboard, soft design, soft dashboard bootstrap 5 dashboard">
-  <meta name="description" content="Argon Dashboard PRO is a beautiful Bootstrap 5 admin dashboard with a large number of components, designed to look beautiful, clean and organized. If you are looking for a tool to manage dates about your business, this dashboard is the thing for you.">
-  
   <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
   <!-- Nucleo Icons -->
-  <link href="{{asset('argon2/assets/css/css-nucleo-icons.css')}}" rel="stylesheet">
-  <link href="{{asset('argon2/assets/css/css-nucleo-svg.css')}}" rel="stylesheet">
+  <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
-  <link href="{{asset('argon2/assets/css/css-nucleo-svg.css')}}" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <!-- CSS Files -->
-  <link id="pagestyle" href="{{asset('argon2/assets/css/css-argon-dashboard.min.css')}}" rel="stylesheet">
-  <!-- Anti-flicker snippet (recommended)  -->
-  <style>
-    .async-hide {
-      opacity: 0 !important
-    }
-  </style>
+  <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.2.0') }}" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-100">
-  
+<body class="bg-gray-200">
   <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-50 pt-7 pb-9 m-3 border-radius-lg" style="background-image: url('{{asset('img/pengadilan.png')}}'); background-size: 80%; ">
-      <span class="mask bg-gradient-dark opacity-4"></span>
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8 text-center mx-auto">
-            <img src="{{asset('img/logo.png')}}" width="200">
-            <img src="{{asset('img/logo-cimahi.png')}}" width="150">
-            <img src="{{asset('img/logo-bandung.png')}}" width="250">
-            <img src="{{asset('img/logo-barat.png')}}" width="150">
-            <h3 class="text-white mb-2 mt-5">Pengadilan Negeri Bale Bandung</h3>
-            <p class="text-lead text-white">Pengadilan Negeri Bale Bandung Kelas 1A merupakan sebuah lembaga peradilan di lingkungan Peradilan Umum yang berkedudukan di Kabupaten Bandung.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
-          <div class="card mt-5">
-            <div class="card-header pb-0 text-start">
-              <h3 class="font-weight-bolder">Log In</h3>
-              <p class="mb-0">Masukan username dan password untuk Log In</p>
-            </div>
-            <div class="card-body">
-              @if(session('error'))
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{session('error')}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-              @endif
-              @error('login_failed')
-              <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
-                {{ $message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-              @enderror
-              <form role="form" class="text-start" method="POST" action="{{ route('auth.login_process') }}">
-                
-                @csrf
-                <label>Username</label>
-                <div class="mb-3">
-                  <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Userame">
-                  @if($errors->has('username'))
-                    <span class="text-danger text-sm">{{ $errors->first('username') }}</span>
-                  @endif
+    <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
+      <span class="mask bg-gradient-dark opacity-6"></span>
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-4 col-md-8 col-12 mx-auto">
+            <div class="card z-index-0 fadeIn3 fadeInBottom">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                  <div class="row">
+                    <img src="{{asset('img/logo.png')}}" width="150">
+                  </div>
+                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Log in</h4>
+                  <p class="text-sm text-center">
+                    Masukan username dan password untuk masuk ke dalam sistem.
+                  </p>
                 </div>
-                <label>Password</label>
-                <div class="mb-3">
-                  <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
-                  @if($errors->has('password'))
-                    <span class="text-danger text-sm">{{ $errors->first('password') }}</span>
-                  @endif
+              </div>
+              <div class="card-body">
+                @if(session('error'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  {{session('error')}}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                
-                {{-- CAPTCHA --}}
-                <div class="mb-3">
-                    {!! NoCaptcha::display() !!}
-                    @if ($errors->has('g-recaptcha-response'))
-                        <span class="text-danger text-sm">{{ $errors->first('g-recaptcha-response') }}</span>
+                @endif
+                @error('login_failed')
+                <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+                  {{ $message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @enderror
+                <form role="form" class="text-start" method="POST" action="{{ route('auth.login_process') }}">
+                  @csrf
+                  <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" aria-label="Userame">
+                    @if($errors->has('username'))
+                      <span class="text-danger text-sm">{{ $errors->first('username') }}</span>
                     @endif
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary w-100 mt-4 mb-0" style="background: #016004 !important">Log In</button>
-                </div>
-              </form>
+                  </div>
+                  <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" aria-label="Password">
+                    @if($errors->has('password'))
+                      <span class="text-danger text-sm">{{ $errors->first('password') }}</span>
+                    @endif
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Log in</button>
+                  </div>
+                </form>
+              </div>
             </div>
-            
           </div>
         </div>
       </div>
     </div>
   </main>
-  <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
-  <footer class="footer py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-8 mx-auto text-center mt-1">
-          <p class="mb-0 text-secondary">
-            Copyright &copy; {{date('Y')}}, M Tonny Heru Susanto. All rights reserved
-          </p>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
   <!--   Core JS Files   -->
-  <script src="{{asset('argon2/assets/js/core-popper.min.js')}}"></script>
-  <script src="{{asset('argon2/assets/js/core-bootstrap.min.js')}}"></script>
-  <script src="{{asset('argon2/assets/js/plugins-perfect-scrollbar.min.js')}}"></script>
-  <script src="{{asset('argon2/assets/js/plugins-smooth-scrollbar.min.js')}}"></script>
-  <!-- Kanban scripts -->
-  <script src="{{asset('argon2/assets/js/dragula-dragula.min.js')}}"></script>
-  <script src="{{asset('argon2/assets/js/jkanban-jkanban.js')}}"></script>
+  <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+  <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -150,10 +110,9 @@
     }
   </script>
   <!-- Github buttons -->
-  <script async defer src="{{asset('argon2/assets/js/buttons.github.io-buttons.js')}}"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{asset('argon2/assets/js/js-argon-dashboard.min.js')}}"></script>
-  {!! NoCaptcha::renderJs() !!}
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.2.0') }}"></script>
 </body>
 
 </html>

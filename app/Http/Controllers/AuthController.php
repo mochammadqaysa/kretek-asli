@@ -25,13 +25,10 @@ class AuthController extends Controller
             [
                 'username' => 'required',
                 'password' => 'required',
-                'g-recaptcha-response' => 'required|captcha', // Tambah ini
             ],
             [
                 'username.required' => 'Username harus diisi.',
                 'password.required' => 'Password harus diisi.',
-                'g-recaptcha-response.required' => 'Captcha harus diisi.',
-                'g-recaptcha-response.captcha' => 'Captcha tidak valid, silakan coba lagi.',
             ]
         );
 

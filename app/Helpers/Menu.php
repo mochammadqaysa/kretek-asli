@@ -30,9 +30,9 @@ class Menu
         // dd(["assign" => in_array($assign, $this->permission), "permission" => $this->permission, "assig" => $assign]);
         if (in_array($assign, $this->permission)) {
             $this->html .= '<li class="nav-item">
-                <a class="nav-link ' . ($isActive ? 'active' : '') . '" href="' . url($url) . '">
-                    <i class="' . $icon . '"></i>
-                    <span class="nav-link-text">' . $title . '</span>
+                <a class="nav-link ' . ($isActive ? 'active bg-gradient-dark text-white' : 'text-dark') . '" href="' . url($url) . '">
+                    <i class="' . $icon . ' opacity-5"></i>
+                    <span class="nav-link-text ms-1">' . $title . '</span>
                 </a>
             </li>';
         }
@@ -54,9 +54,19 @@ class Menu
         return $this;
     }
 
-    public function divinder()
+    public function divider()
     {
         $this->html .= '<hr class="my-3">';
+        return $this;
+    }
+
+    public function title($title, $assign)
+    {
+        if (in_array($assign, $this->permission)) {
+            $this->html .= '<li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">' . $title . '</h6>
+            </li>';
+        }
         return $this;
     }
 
