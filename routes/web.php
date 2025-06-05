@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleSettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsulanController;
 use App\Http\Middleware\PengadilanAuth;
@@ -44,6 +47,9 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
     Route::resources(['role' => RoleController::class]);
     Route::resources(['module' => ModuleController::class]);
     Route::resources(['permission' => PermissionController::class]);
+    Route::resources(['appointment' => AppointmentController::class]);
+    Route::resources(['patient' => PatientController::class]);
+    Route::resources(['schedule' => ScheduleSettingController::class]);
 
 
     Route::get('/file/{filename}/{type}', function ($filename, $type) {
