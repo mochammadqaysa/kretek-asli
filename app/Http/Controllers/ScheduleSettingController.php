@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AuthCommon;
+use App\Helpers\PermissionCommon;
+use App\Models\ScheduleSetting;
 use Illuminate\Http\Request;
 
 class ScheduleSettingController extends Controller
@@ -11,7 +14,13 @@ class ScheduleSettingController extends Controller
      */
     public function index()
     {
-        //
+        if (!PermissionCommon::check('role.list')) abort(403);
+        $user = AuthCommon::getUser();
+        $day_schedule = explode(',', ScheduleSetting::where('meta_field', 'day_schedule')->first()->meta_value);
+        $morning_schedule = explode(',', ScheduleSetting::where('meta_field', 'morning_schedule')->first()->meta_value);
+        $afternoon_schedule = explode(',', ScheduleSetting::where('meta_field', 'afternoon_schedule')->first()->meta_value);
+        // dd($day_schedule, $morning_schedule, $afternoon_schedule);
+        return view('pages.schedule_setting.index', compact('user', 'day_schedule', 'morning_schedule', 'afternoon_schedule'));
     }
 
     /**

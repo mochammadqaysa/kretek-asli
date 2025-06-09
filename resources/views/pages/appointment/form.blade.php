@@ -2,22 +2,18 @@
     <!-- Nama Lengkap -->
     <div class="form-group col-md-12">
       <label>Nama Lengkap <span class="text-danger">*</span></label>
-      <input type="text" name="nama" class="form-control" placeholder="Nama Lengkap"
-        value="{{ old('nama', @$data->nama) }}">
+      <input type="text" name="nama" class="form-control" placeholder="Nama Lengkap" value="{{ @$data->patient->nama }}">
     </div>
 
     <!-- Jenis Kelamin -->
     <div class="form-group col-md-12">
       <label>Jenis Kelamin <span class="text-danger">*</span></label><br>
-      @php
-        $jk = old('meta.jenis_kelamin', strtoupper(@$data->jenis_kelamin));
-      @endphp
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" id="jenis_kelamin0" name="meta[jenis_kelamin]" class="custom-control-input" value="PRIA" {{ $jk == "PRIA" ? "checked" : "" }}>
+        <input type="radio" id="jenis_kelamin0" name="meta[jenis_kelamin]" class="custom-control-input" value="PRIA" {{ @$dataMeta['jenis_kelamin'] == "PRIA" ? "checked" : "" }}>
         <label class="custom-control-label" for="jenis_kelamin0">Pria</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" id="jenis_kelamin1" name="meta[jenis_kelamin]" class="custom-control-input" value="WANITA" {{ $jk == "WANITA" ? "checked" : "" }}>
+        <input type="radio" id="jenis_kelamin1" name="meta[jenis_kelamin]" class="custom-control-input" value="WANITA" {{ @$dataMeta['jenis_kelamin'] == "WANITA" ? "checked" : "" }}>
         <label class="custom-control-label" for="jenis_kelamin1">Wanita</label>
       </div>
     </div>
@@ -25,29 +21,26 @@
     <!-- Kontak -->
     <div class="form-group col-md-6">
       <label>Kontak</label>
-      <input type="text" name="meta[kontak]" class="form-control" placeholder="Kontak"
-        value="{{ old('meta.kontak', @$data->kontak) }}">
+      <input type="text" name="meta[kontak]" class="form-control" placeholder="Kontak" value="{{ @$dataMeta['kontak'] }}">
     </div>
 
     <!-- Email -->
     <div class="form-group col-md-6">
       <label>Email</label>
-      <input type="text" name="meta[email]" class="form-control" placeholder="Email"
-        value="{{ old('meta.email', @$data->email) }}">
+      <input type="text" name="meta[email]" class="form-control" placeholder="Email" value="{{ @$dataMeta['kontak'] }}">
     </div>
 
     <!-- Tanggal Lahir -->
     <div class="form-group col-md-12">
       <label>Tanggal Lahir <span class="text-danger">*</span></label>
       <input type="text" class="form-control" name="meta[tanggal_lahir]" id="tanggal_lahir"
-        placeholder="Pilih Tanggal Lahir"
-        value="{{ old('meta.tanggal_lahir', @$data->tanggal_lahir) }}" style="background-color: white;">
+        placeholder="Pilih Tanggal Lahir" value="{{ @$dataMeta['tanggal_lahir'] }}" style="background-color: white;">
     </div>
 
     <!-- Alamat -->
     <div class="form-group col-md-12">
       <label>Alamat</label>
-      <textarea name="meta[alamat]" placeholder="Alamat" class="form-control">{{ old('meta.alamat', @$data->alamat) }}</textarea>
+      <textarea name="meta[alamat]" placeholder="Alamat" class="form-control">{{ @$dataMeta['alamat'] }}</textarea>
     </div>
 
     <!-- Keluhan -->
@@ -61,7 +54,7 @@
       <label>Tanggal Janji Temu <span class="text-danger">*</span></label>
       <input type="text" class="form-control" name="appointment_date" id="appointment_date"
         placeholder="Pilih Tanggal Janji Temu"
-        value="{{ old('appointment_date', @$data->appointment_date) }}" style="background-color: white;">
+        value="{{ @$data->date_sched }}" style="background-color: white;">
     </div>
 
     <!-- Status -->
@@ -73,11 +66,10 @@
           "1" => "Konfirmasi",
           "2" => "Tolak",
         ];
-        $currentStatus = old('status', @$data->status);
       @endphp
       <select name="status" class="form-control select2" id="txtStatus">
         @foreach($statusList as $key => $value)
-          <option value="{{ $key }}" {{ $currentStatus == $key ? 'selected' : '' }}>{{ $value }}</option>
+          <option value="{{ $key }}" {{ @$data->status == $key ? 'selected' : '' }}>{{ $value }}</option>
         @endforeach
       </select>
       <div id="validationtxtStatus" class="invalid-feedback"></div>

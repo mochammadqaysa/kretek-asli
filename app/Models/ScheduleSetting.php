@@ -8,19 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ScheduleSetting extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    protected $table = "patient_metas";
-    protected $primaryKey = 'uid';
+    protected $primaryKey = null;
     public $incrementing = false;
-    protected $keyType = 'string';
+    protected $keyType = null;
+    public $timestamps = false;
+    protected $table = "schedule_settings";
     protected $fillable = [
-        'uid',
-        'patient_uid',
         'meta_field',
         'meta_value',
-    ];
-
-    protected $casts = [
-        'uid' => 'string',
     ];
 }

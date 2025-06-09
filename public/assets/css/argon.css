@@ -224,7 +224,7 @@ a:hover
 {
     text-decoration: none; 
 
-    color: #004701;
+    color: #DB4816;
 }
 
 a:not([href]):not([tabindex])
@@ -4056,7 +4056,7 @@ fieldset:disabled a.btn
 {
     text-decoration: none; 
 
-    color: #004701;
+    color: #DB4816;
 }
 .btn-link:focus,
 .btn-link.focus
@@ -8542,7 +8542,7 @@ a.bg-diy:focus,
 button.bg-diy:hover,
 button.bg-diy:focus
 {
-    background-color: #004701 !important;
+    background-color: #DB4816 !important;
 }
 
 .bg-light
@@ -17459,7 +17459,7 @@ button.bg-darker:focus
 a.text-primary:hover,
 a.text-primary:focus
 {
-    color: #004701 !important;
+    color: #DB4816 !important;
 }
 
 .text-secondary
@@ -19470,13 +19470,13 @@ a.btn-icon-only
 }
 .custom-toggle input:checked + .custom-toggle-slider
 {
-    border: 1px solid #5e72e4;
+    border: 1px solid #EE5724;
 }
 .custom-toggle input:checked + .custom-toggle-slider:before
 {
     transform: translateX(28px); 
 
-    background: #5e72e4;
+    background: #EE5724;
 }
 .custom-toggle input:disabled + .custom-toggle-slider
 {
@@ -26121,7 +26121,7 @@ button.section-darker:focus
 a.text-blue:hover,
 a.text-blue:focus
 {
-    color: #004701 !important;
+    color: #DB4816 !important;
 }
 
 .text-indigo

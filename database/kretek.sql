@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 09:38 AM
+-- Generation Time: Jun 09, 2025 at 12:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -36,13 +36,6 @@ CREATE TABLE `appointments` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `appointments`
---
-
-INSERT INTO `appointments` (`uid`, `patient_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
-('c17145e7-9078-4016-8b95-4ec7294383d6', 'ee2cf88c-e776-4a93-9509-43588ac55d1d', '2025-06-09 12:00:00', 'sakit awak', 0, '2025-06-08 17:10:43', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
 
@@ -212,13 +205,6 @@ CREATE TABLE `patients` (
   `created_by` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `patients`
---
-
-INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'Mochammad Qaysa Al-Haq', '2025-06-08 17:10:43', 'a9467865-37c1-4104-bd63-b26a33c915db');
-
 -- --------------------------------------------------------
 
 --
@@ -230,18 +216,6 @@ CREATE TABLE `patient_metas` (
   `meta_field` text DEFAULT NULL,
   `meta_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `patient_metas`
---
-
-INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'nama', 'Mochammad Qaysa Al-Haq'),
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'jenis_kelamin', 'pria'),
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'kontak', NULL),
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'email', NULL),
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'tanggal_lahir', '2025-06-10'),
-('ee2cf88c-e776-4a93-9509-43588ac55d1d', 'alamat', NULL);
 
 -- --------------------------------------------------------
 
@@ -361,6 +335,15 @@ CREATE TABLE `schedule_settings` (
   `meta_field` text DEFAULT NULL,
   `meta_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `schedule_settings`
+--
+
+INSERT INTO `schedule_settings` (`meta_field`, `meta_value`) VALUES
+('day_schedule', 'Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu'),
+('morning_schedule', '08:00,11:00'),
+('afternoon_schedule', '13:00,16:00');
 
 -- --------------------------------------------------------
 

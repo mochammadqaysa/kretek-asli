@@ -52,7 +52,7 @@ class AppointmentController extends Controller
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'status' => 'required',
-        ],[
+        ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
             'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
@@ -139,24 +139,30 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        $patient = $appointment->patient;
-        $metas = PatientMeta::where('patient_uid', $patient->uid)->pluck('meta_value', 'meta_field');
-        $uid = $appointment->uid;
+        if (!PermissionCommon::check('role.update')) abort(403);
+        if ($appointment) {
+            $uid = $appointment->uid;
+            $data = $appointment;
+            $meta = PatientMeta::where('patient_uid', $appointment->patient_uid)->get();
+            $dataMeta = [];
+            foreach ($meta as $m) {
+                $dataMeta[$m->meta_field] = $m->meta_value;
+            }
 
-        $data = (object) array_merge(
-            $patient->toArray(),
-            $metas->toArray(),
-            $appointment ? $appointment->toArray() : []
-        );
-
-        $body = view('pages.appointment.edit', compact('uid', 'data'))->render();
-        $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
-        return [
-            'title' => 'Edit Janji Temu',
-            'body' => $body,
-            'footer' => $footer
-        ];
+            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta'))->render();
+            $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
+            return [
+                'title' => 'Edit Janji Temu',
+                'body' => $body,
+                'footer' => $footer
+            ];
+        } else {
+            return response([
+                'status' => false,
+                'message' => 'Failed Connect to Server'
+            ], 400);
+        }
     }
 
     /**
@@ -164,6 +170,7 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
+        if (!PermissionCommon::check('role.update')) abort(403);
         $request->validate([
             'nama' => 'required',
             'meta' => 'required|array',
@@ -172,38 +179,62 @@ class AppointmentController extends Controller
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'status' => 'required',
+        ], [
+            'nama.required' => 'Nama Lengkap harus diisi',
+            'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
+            'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
+            'keluhan.required' => 'Keluhan harus diisi',
+            'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
+            'status.required' => 'Status harus dipilih',
         ]);
-
-        $data = $request->except('_token', '_method');
-        dd($data);
+        $formData = $request->except(["_token", "_method"]);
         try {
             $patient = $appointment->patient;
-            $patient->update([
-                'nama' => $data['nama'],
-            ]);
-
-            // Update or insert meta
-            foreach ($data['meta'] as $key => $value) {
-                PatientMeta::updateOrCreate(
-                    ['patient_uid' => $patient->uid, 'meta_field' => $key],
-                    ['meta_value' => $value]
-                );
+            $patient->nama = $formData['nama'];
+            $patient->save();
+            $insertMetas = [];
+            $insertMetas[] = [
+                'patient_uid' => $patient->uid,
+                'meta_field' => 'nama',
+                'meta_value' => $formData['nama'],
+            ];
+            foreach ($formData['meta'] as $key => $value) {
+                if (in_array($key, ['jenis_kelamin', 'kontak', 'email', 'tanggal_lahir', 'alamat'])) {
+                    $insertMetas[] = [
+                        'patient_uid' => $patient->uid,
+                        'meta_field' => $key,
+                        'meta_value' => $value,
+                    ];
+                }
             }
-
-            // Update appointment
-            Appointment::updateOrCreate(
-                ['patient_uid' => $patient->uid],
-                [
-                    'keluhan' => $data['keluhan'],
-                    'date_sched' => $data['appointment_date'],
-                    'status' => $data['status'],
-                    'updated_by' => auth()->user()->uid
-                ]
-            );
-
-            return response(['status' => true, 'message' => 'Data berhasil diperbarui'], 200);
+            $trxMetas = PatientMeta::where('patient_uid', $patient->uid)->delete();
+            $trxMetas = PatientMeta::insert($insertMetas);
+            if ($trxMetas) {
+                $appointment->keluhan = $formData['keluhan'];
+                $appointment->date_sched = $formData['appointment_date'];
+                $appointment->status = $formData['status'];
+                $appointment->save();
+                return response([
+                    'status' => true,
+                    'message' => 'Berhasil Mengubah Janji Temu'
+                ], 200);
+            } else {
+                return response([
+                    'status' => false,
+                    'message' => 'Gagal Mengubah Janji Temu'
+                ], 400);
+            }
         } catch (\Throwable $th) {
-            return response(['status' => false, 'message' => 'Terjadi Kesalahan Internal'], 400);
+            //throw $th;
+            return response([
+                'status' => false,
+                'message' => 'Terjadi Kesalahan Internal',
+            ], 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response([
+                'status' => false,
+                'message' => 'Terjadi Kesalahan Internal',
+            ], 400);
         }
     }
 
@@ -212,6 +243,24 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        if (!PermissionCommon::check('role.delete')) abort(403);
+        try {
+            $patient = $appointment->patient;
+            $patient->delete();
+            $delete = $appointment->delete();
+            if ($delete) {
+                return response()->json([
+                    'message' => 'Berhasil Menghapus Data'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Gagal Menghapus Data'
+                ]);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'message' => 'Data Failed, this data is still used in other modules !'
+            ]);
+        }
     }
 }
