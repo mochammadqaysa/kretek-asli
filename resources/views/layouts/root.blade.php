@@ -181,6 +181,8 @@
   <script src="{{ asset('js/datatables-datetime.min.js') }}"></script>
   <script src="{{ asset('js/moment.min.js') }}"></script>
   <script src="{{ asset('js/datetime-moment.js') }}"></script>
+
+  <script src="{{ asset('assets/vendor/fullcalendar/dist/fullcalendar.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/wizard/jquery.steps.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/wizard/bd-wizard.js') }}"></script>
   <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>

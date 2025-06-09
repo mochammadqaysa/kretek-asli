@@ -4,7 +4,6 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ModuleController;
-use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleSettingController;
@@ -48,29 +47,29 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
 
 
 
-    Route::get('/file/{filename}/{type}', function ($filename, $type) {
-        $file_path = public_path("upload/$type/$filename");
-        $extension = pathinfo($file_path, PATHINFO_EXTENSION);
-        if ($extension == 'pdf') {
-            // create variable named body, and assign the value of iframe sourced into file_path
-            $body = '<iframe src="' . url("upload/$type/$filename") . '" class="embed-responsive-item" style="width: 100%; height: 100vh;"></iframe>';
-            $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
-            return [
-                'title' => 'Preview Dokumen',
-                'body' => $body,
-                'footer' => $footer
-            ];
-        } else {
-            $body = '<img src="' . url("upload/$type/$filename") . '" class="img-fluid" alt="Responsive image">';
-            $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
-            return [
-                'title' => 'Preview Dokumen',
-                'body' => $body,
-                'footer' => $footer
-            ];
-        }
-        // return response()->file(public_path("upload/$filename"));
-    })->name('file.preview');
+    // Route::get('/file/{filename}/{type}', function ($filename, $type) {
+    //     $file_path = public_path("upload/$type/$filename");
+    //     $extension = pathinfo($file_path, PATHINFO_EXTENSION);
+    //     if ($extension == 'pdf') {
+    //         // create variable named body, and assign the value of iframe sourced into file_path
+    //         $body = '<iframe src="' . url("upload/$type/$filename") . '" class="embed-responsive-item" style="width: 100%; height: 100vh;"></iframe>';
+    //         $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+    //         return [
+    //             'title' => 'Preview Dokumen',
+    //             'body' => $body,
+    //             'footer' => $footer
+    //         ];
+    //     } else {
+    //         $body = '<img src="' . url("upload/$type/$filename") . '" class="img-fluid" alt="Responsive image">';
+    //         $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+    //         return [
+    //             'title' => 'Preview Dokumen',
+    //             'body' => $body,
+    //             'footer' => $footer
+    //         ];
+    //     }
+    //     // return response()->file(public_path("upload/$filename"));
+    // })->name('file.preview');
 
 
     Route::prefix('role')->group(function () {

@@ -7,6 +7,7 @@ use App\Helpers\PermissionCommon;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\PatientMeta;
+use App\Models\ScheduleSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,23 @@ class AppointmentController extends Controller
     public function create()
     {
         if (!PermissionCommon::check('role.create')) abort(403);
-        $body = view('pages.appointment.create')->render();
+        $schedule = ScheduleSetting::where('meta_field', 'day_schedule')->first();
+        $day_schedule = [];
+        if ($schedule) {
+            $day_schedule = explode(',', $schedule->meta_value);
+        }
+        $schedule = ScheduleSetting::where('meta_field', 'morning_schedule')->first();
+        $morning_schedule = [];
+        if ($schedule) {
+            $morning_schedule = explode(',', $schedule->meta_value);
+        }
+        $schedule = ScheduleSetting::where('meta_field', 'afternoon_schedule')->first();
+        $afternoon_schedule = [];
+        if ($schedule) {
+            $afternoon_schedule = explode(',', $schedule->meta_value);
+        }
+
+        $body = view('pages.appointment.create',compact('day_schedule','morning_schedule','afternoon_schedule'))->render();
         $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
 

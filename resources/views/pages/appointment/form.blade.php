@@ -74,16 +74,71 @@
       </select>
       <div id="validationtxtStatus" class="invalid-feedback"></div>
     </div>
-    <script>
-  $('.select2').select2();
-  $('#tanggal_lahir').flatpickr({
-    static: true,
-    dateFormat: "Y-m-d",
-  })
-  $('#appointment_date').flatpickr({
-    enableTime: true,
-    static: true,
-    dateFormat: "Y-m-d H:i",
-    time_24hr: true,
+<script>
+  $(() => {
+    const daySchedule = @json($day_schedule);
+    const morningSchedule = @json($morning_schedule);  // ["07:00", "12:00"]
+    const afternoonSchedule = @json($afternoon_schedule); // ["14:00", "17:00"]
+    const dayMap = {
+        Sunday: 0,
+        Monday: 1,
+        Tuesday: 2,
+        Wednesday: 3,
+        Thursday: 4,
+        Friday: 5,
+        Saturday: 6,
+    };
+
+    const activeDays = daySchedule.map(day => dayMap[day]);
+
+    function isTimeAllowed(date) {
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const totalMinutes = hours * 60 + minutes;
+
+        const [mStartH, mStartM] = morningSchedule[0].split(":").map(Number);
+        const [mEndH, mEndM] = morningSchedule[1].split(":").map(Number);
+        const [aStartH, aStartM] = afternoonSchedule[0].split(":").map(Number);
+        const [aEndH, aEndM] = afternoonSchedule[1].split(":").map(Number);
+
+        const morningStartMin = mStartH * 60 + mStartM;
+        const morningEndMin = mEndH * 60 + mEndM;
+        const afternoonStartMin = aStartH * 60 + aStartM;
+        const afternoonEndMin = aEndH * 60 + aEndM;
+
+        return (
+            (totalMinutes >= morningStartMin && totalMinutes <= morningEndMin) ||
+            (totalMinutes >= afternoonStartMin && totalMinutes <= afternoonEndMin)
+        );
+    }
+    $('.select2').select2();
+    $('#tanggal_lahir').flatpickr({
+      static: true,
+      dateFormat: "Y-m-d",
+    })
+    $('#appointment_date').flatpickr({
+        enableTime: true,
+        static: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true,
+        minDate: "today",
+
+        enable: [
+            function(date) {
+                const day = date.getDay();
+                return activeDays.includes(day); // hanya hari aktif
+            }
+        ],
+
+        onClose: function(selectedDates, dateStr, instance) {
+            const selectedDate = selectedDates[0];
+            if (!isTimeAllowed(selectedDate)) {
+                alert("Waktu yang dipilih di luar jam layanan (pagi: " + morningSchedule.join(" - ") + ", siang: " + afternoonSchedule.join(" - ") + ").");
+                instance.clear(); // Kosongkan input
+            }
+        }
+    });
+
+
   })
 </script>

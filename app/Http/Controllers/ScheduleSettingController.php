@@ -36,7 +36,54 @@ class ScheduleSettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!PermissionCommon::check('role.create')) abort(403);
+        $request->validate([
+            'days.*' => 'required',
+            'morning_from' => 'required',
+            'morning_to' => 'required',
+            'afternoon_from' => 'required',
+            'afternoon_to' => 'required',
+        ],[
+            'days.*.required' => 'Hari Wajib Diisi',
+            'morning_from.required' => 'Jam Mulai Pagi Wajib Diisi',
+            'morning_to.required' => 'Jam Selesai Pagi Wajib Diisi',
+            'afternoon_from.required' => 'Jam Mulai Siang Wajib Diisi',
+            'afternoon_to.required' => 'Jam Selesai Siang Wajib Diisi',
+        ]);
+        $data = $request->except('_token');
+        try {
+            ScheduleSetting::where('meta_field', 'day_schedule')->delete();
+            ScheduleSetting::where('meta_field', 'morning_schedule')->delete();
+            ScheduleSetting::where('meta_field', 'afternoon_schedule')->delete();
+
+            ScheduleSetting::create([
+                'meta_field' => 'day_schedule',
+                'meta_value' => implode(',', $data['days'])
+            ]);
+
+            ScheduleSetting::create([
+                'meta_field' => 'morning_schedule',
+                'meta_value' => $data['morning_from'] . ',' . $data['morning_to']
+            ]);
+            ScheduleSetting::create([
+                'meta_field' => 'afternoon_schedule',
+                'meta_value' => $data['afternoon_from'] . ',' . $data['afternoon_to']
+            ]);
+            return response([
+                'status' => true,
+                'message' => 'Berhasil Mengupdate Jadwal'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response([
+                'status' => false,
+                'message' => 'Terjadi Kesalahan Internal'
+            ], 400);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response([
+                'status' => false,
+                'message' => 'Terjadi Kesalahan Internal',
+            ], 400);
+        }
     }
 
     /**

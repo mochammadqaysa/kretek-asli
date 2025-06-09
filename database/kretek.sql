@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 12:12 PM
+-- Generation Time: Jun 09, 2025 at 07:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -36,6 +36,13 @@ CREATE TABLE `appointments` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`uid`, `patient_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
+('0d0a1137-1c8e-4248-8f80-4cc2df96b0c7', 'de4cb802-a7d2-4726-996c-956b4773e814', '2025-06-09 12:00:00', 'Sakit Awak', 0, '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
 
@@ -205,6 +212,13 @@ CREATE TABLE `patients` (
   `created_by` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `patients`
+--
+
+INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
+('de4cb802-a7d2-4726-996c-956b4773e814', 'Rifky Pratama', '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
+
 -- --------------------------------------------------------
 
 --
@@ -216,6 +230,18 @@ CREATE TABLE `patient_metas` (
   `meta_field` text DEFAULT NULL,
   `meta_value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient_metas`
+--
+
+INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
+('de4cb802-a7d2-4726-996c-956b4773e814', 'nama', 'Rifky Pratama'),
+('de4cb802-a7d2-4726-996c-956b4773e814', 'jenis_kelamin', 'PRIA'),
+('de4cb802-a7d2-4726-996c-956b4773e814', 'kontak', NULL),
+('de4cb802-a7d2-4726-996c-956b4773e814', 'email', NULL),
+('de4cb802-a7d2-4726-996c-956b4773e814', 'tanggal_lahir', '2025-06-10'),
+('de4cb802-a7d2-4726-996c-956b4773e814', 'alamat', 'Deket Unibi');
 
 -- --------------------------------------------------------
 
@@ -341,9 +367,9 @@ CREATE TABLE `schedule_settings` (
 --
 
 INSERT INTO `schedule_settings` (`meta_field`, `meta_value`) VALUES
-('day_schedule', 'Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu'),
-('morning_schedule', '08:00,11:00'),
-('afternoon_schedule', '13:00,16:00');
+('day_schedule', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('morning_schedule', '07:00,12:00'),
+('afternoon_schedule', '14:00,17:00');
 
 -- --------------------------------------------------------
 
