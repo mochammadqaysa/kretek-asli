@@ -13,6 +13,16 @@
     span.fc-time {
       color: #fff !important;
     }
+    #calendar .fc-toolbar {
+        height: auto !important;
+        margin-bottom: 1rem !important;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 1rem;
+        z-index: 10;
+    }
   </style>
 @endsection
 
@@ -125,128 +135,193 @@
       <div class="card-header bg-transparent">
         <div class="row align-items-center">
           <div class="col">
-            <h6 class="text-uppercase text-muted ls-1 mb-1">Jadwal</h6>
+            <h6 class="text-uppercase text-muted ls-1 mb-1">Kalender</h6>
             <h5 class="h3  mb-0"><i class="fad fa-chart-pie"></i> Jadwal Janji Temu</h5>
+            <div class="container-fluid content__title content__title--calendar">
+              <div class="row align-items-center py-4">
+                <div class="col-lg-6">
+                  <h6 class="fullcalendar-title h2 d-inline-block mb-0"></h6>
+                </div>
+                <div class="col-lg-6 mt-3 mt-lg-0 text-lg-right">
+                  <a href="#" class="fullcalendar-btn-prev btn btn-sm btn-neutral">
+                    <i class="fas fa-angle-left"></i>
+                  </a>
+                  <a href="#" class="fullcalendar-btn-next btn btn-sm btn-neutral">
+                    <i class="fas fa-angle-right"></i>
+                  </a>
+                  <a href="#" class="btn btn-sm btn-neutral" data-calendar-view="month">Bulan</a>
+                  <a href="#" class="btn btn-sm btn-neutral" data-calendar-view="basicWeek">Minggu</a>
+                  <a href="#" class="btn btn-sm btn-neutral" data-calendar-view="basicDay">Hari</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="card-body">
-        <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
+      <div class="card-body" style="margin-top: -60px;">
+        <div class="calendar" data-toggle="calendarasd" id="schedule-calendar"></div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="detail-event" tabindex="-1" role="dialog" aria-labelledby="detail-event-label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-secondary modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal_title">Jadwal Janji Temu</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="row justify-content-center">
+          <div class="col-md-12 justify-content-start">
+            <h5 style="color: #EE5724">Data Pasien</h5>
+            <hr class="bg-diy"style="height: 2px; margin-top: 0px !important; margin-bottom: 10px !important;">
+          </div>
+          <table class="table table-borderless align-items-left table-flush table-header col-md-12">
+            <tbody>
+              <tr>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-user-tag"></i></h3> Nama Lengkap
+                  <h3 id="d-nama"></h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-venus-mars"></i></h3> Jenis Kelamin
+                  <h3 id="d-jenis-kelamin"></h3>
+                </td>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-birthday-cake"></i></h3> Tanggal Lahir
+                  <h3 id="d-tanggal-lahir"></h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-envelope-open-text"></i></h3> Email
+                  <h3 id="d-email"></h3>
+                </td>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-phone"></i></h3> No Telepon
+                  <h3 id="d-telpon"></h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-map"></i></h3> Alamat
+                  <h3 id="d-alamat"></h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-first-aid"></i></h3> Keluhan
+                  <h3 id="d-keluhan"></h3>
+                </td>
+                <td>
+                  <h3 class="d-inline"><i class="fas fa-calendar-day"></i></h3> Tanggal Janji Temu
+                  <h3 id="d-tanggal-janji-temu"></h3>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>  
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 
 @section('scripts')
 <script>
-var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
-      initialView: "dayGridMonth",
-      headerToolbar: {
-        start: 'title', // will normally be on the left. if RTL, will be on the right
-        center: '',
-        end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-      },
-      selectable: true,
-      editable: true,
-      initialDate: '2020-12-01',
-      events: [{
-          title: 'Call with Dave',
-          start: '2020-11-18',
-          end: '2020-11-18',
-          className: 'bg-gradient-danger'
-        },
+  $(document).ready(function() {
+    options = {
+			header: {
+				right: '',
+				center: '',
+				left: ''
+			},
+			buttonIcons: {
+				prev: 'calendar--prev',
+				next: 'calendar--next'
+			},
+			theme: false,
+			selectable: true,
+			selectHelper: true,
+			editable: true,
+			events: @json($calender),
+      timeFormat: 'H:mm',
 
-        {
-          title: 'Lunch meeting',
-          start: '2020-11-21',
-          end: '2020-11-22',
-          className: 'bg-gradient-warning'
-        },
+			dayClick: function(date) {
+				var isoDate = moment(date).toISOString();
+				$('#new-event').modal('show');
+				$('.new-event--title').val('');
+				$('.new-event--start').val(isoDate);
+				$('.new-event--end').val(isoDate);
+			},
 
-        {
-          title: 'All day conference',
-          start: '2020-11-29',
-          end: '2020-11-29',
-          className: 'bg-gradient-success'
-        },
+			viewRender: function(view) {
+				var calendarDate = $('#schedule-calendar').fullCalendar('getDate');
+				var calendarMonth = calendarDate.month();
 
-        {
-          title: 'Meeting with Mary',
-          start: '2020-12-01',
-          end: '2020-12-01',
-          className: 'bg-gradient-info'
-        },
+				//Set data attribute for header. This is used to switch header images using css
+				// $this.find('.fc-toolbar').attr('data-calendar-month', calendarMonth);
 
-        {
-          title: 'Winter Hackaton',
-          start: '2020-12-03',
-          end: '2020-12-03',
-          className: 'bg-gradient-danger'
-        },
+				//Set title in page header
+				$('.fullcalendar-title').html(view.title);
+			},
 
-        {
-          title: 'Digital event',
-          start: '2020-12-07',
-          end: '2020-12-09',
-          className: 'bg-gradient-warning'
-        },
+			// Edit calendar event action
 
-        {
-          title: 'Marketing event',
-          start: '2020-12-10',
-          end: '2020-12-10',
-          className: 'bg-gradient-primary'
-        },
+			eventClick: function(event, element) {
 
-        {
-          title: 'Dinner with Family',
-          start: '2020-12-19',
-          end: '2020-12-19',
-          className: 'bg-gradient-danger'
-        },
+				$('#detail-event').modal('show');
+        $('#d-nama').html(event.title + ' <span class="badge text-white '+event.className+'">' + event.message + '</span>');
+        event.jenis_kelamin = event.jenis_kelamin.charAt(0).toUpperCase() + event.jenis_kelamin.slice(1);
+        $('#d-jenis-kelamin').text(event.jenis_kelamin);
+        $('#d-tanggal-lahir').text(event.tanggal_lahir);
+        $('#d-email').text(event.email);
+        $('#d-telpon').text(event.kontak);
+        $('#d-alamat').text(event.alamat);
+        $('#d-keluhan').text(event.keluhan);
+        $('#d-tanggal-janji-temu').text(moment(event.start).format('DD MMMM YYYY') + ' ' + moment(event.start).format('HH:mm'));
+			}
+		};
 
-        {
-          title: 'Black Friday',
-          start: '2020-12-23',
-          end: '2020-12-23',
-          className: 'bg-gradient-info'
-        },
+		// Initalize the calendar plugin
+		$('#schedule-calendar').fullCalendar(options);
 
-        {
-          title: 'Cyber Week',
-          start: '2020-12-02',
-          end: '2020-12-02',
-          className: 'bg-gradient-warning'
-        },
+    $('body').on('click', '[data-calendar-view]', function(e) {
+			e.preventDefault();
 
-      ],
-      views: {
-        month: {
-          titleFormat: {
-            month: "long",
-            year: "numeric"
-          }
-        },
-        agendaWeek: {
-          titleFormat: {
-            month: "long",
-            year: "numeric",
-            day: "numeric"
-          }
-        },
-        agendaDay: {
-          titleFormat: {
-            month: "short",
-            year: "numeric",
-            day: "numeric"
-          }
-        }
-      },
-    });
+			$('[data-calendar-view]').removeClass('active');
+			$(this).addClass('active');
 
-    calendar.render();
-    
+			var calendarView = $(this).attr('data-calendar-view');
+			$('#schedule-calendar').fullCalendar('changeView', calendarView);
+		});
+
+
+		//Calendar Next
+		$('body').on('click', '.fullcalendar-btn-next', function(e) {
+			e.preventDefault();
+			$('#schedule-calendar').fullCalendar('next');
+		});
+
+
+		//Calendar Prev
+		$('body').on('click', '.fullcalendar-btn-prev', function(e) {
+			e.preventDefault();
+			$('#schedule-calendar').fullCalendar('prev');
+		});
+  });
 </script>
 @endsection

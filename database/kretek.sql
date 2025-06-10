@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 07:32 PM
+-- Generation Time: Jun 10, 2025 at 12:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -42,7 +42,8 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`uid`, `patient_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
-('0d0a1137-1c8e-4248-8f80-4cc2df96b0c7', 'de4cb802-a7d2-4726-996c-956b4773e814', '2025-06-09 12:00:00', 'Sakit Awak', 0, '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
+('0a93b7ce-dd9c-4b2b-a86d-2b5202c5d358', 'b3ceaa78-dfdb-4773-a4a0-de75e0618cec', '2025-06-10 14:00:00', 'pengen dipijit aja', 2, '2025-06-10 03:18:38', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('0d0a1137-1c8e-4248-8f80-4cc2df96b0c7', 'de4cb802-a7d2-4726-996c-956b4773e814', '2025-06-09 12:00:00', 'Sakit Awak', 1, '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
 
@@ -217,6 +218,7 @@ CREATE TABLE `patients` (
 --
 
 INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'Mokhammad Arip', '2025-06-10 03:18:38', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('de4cb802-a7d2-4726-996c-956b4773e814', 'Rifky Pratama', '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
@@ -241,7 +243,13 @@ INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
 ('de4cb802-a7d2-4726-996c-956b4773e814', 'kontak', NULL),
 ('de4cb802-a7d2-4726-996c-956b4773e814', 'email', NULL),
 ('de4cb802-a7d2-4726-996c-956b4773e814', 'tanggal_lahir', '2025-06-10'),
-('de4cb802-a7d2-4726-996c-956b4773e814', 'alamat', 'Deket Unibi');
+('de4cb802-a7d2-4726-996c-956b4773e814', 'alamat', 'Deket Unibi'),
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'nama', 'Mokhammad Arip'),
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'jenis_kelamin', 'PRIA'),
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'kontak', NULL),
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'email', NULL),
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'tanggal_lahir', '2025-01-01'),
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'alamat', 'dimana mana hatiku senang');
 
 -- --------------------------------------------------------
 

@@ -44,7 +44,7 @@ class AppointmentController extends Controller
             $afternoon_schedule = explode(',', $schedule->meta_value);
         }
 
-        $body = view('pages.appointment.create',compact('day_schedule','morning_schedule','afternoon_schedule'))->render();
+        $body = view('pages.appointment.create', compact('day_schedule', 'morning_schedule', 'afternoon_schedule'))->render();
         $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
 
@@ -166,7 +166,23 @@ class AppointmentController extends Controller
                 $dataMeta[$m->meta_field] = $m->meta_value;
             }
 
-            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta'))->render();
+            $day_schedule = [];
+            $schedule = ScheduleSetting::where('meta_field', 'day_schedule')->first();
+            if ($schedule) {
+                $day_schedule = explode(',', $schedule->meta_value);
+            }
+            $schedule = ScheduleSetting::where('meta_field', 'morning_schedule')->first();
+            $morning_schedule = [];
+            if ($schedule) {
+                $morning_schedule = explode(',', $schedule->meta_value);
+            }
+            $schedule = ScheduleSetting::where('meta_field', 'afternoon_schedule')->first();
+            $afternoon_schedule = [];
+            if ($schedule) {
+                $afternoon_schedule = explode(',', $schedule->meta_value);
+            }
+
+            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta', 'day_schedule', 'morning_schedule', 'afternoon_schedule'))->render();
             $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
             return [

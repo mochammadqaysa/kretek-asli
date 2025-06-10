@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -28,9 +29,8 @@ use GuzzleHttp\Client;
 */
 
 
-Route::get('/', function () {
-    return redirect()->route('auth.login');
-});
+Route::get('/', [LandingPageController::class, 'index'])->name('landing.index');
+
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('/login_process', [AuthController::class, 'login_process'])->name('auth.login_process');

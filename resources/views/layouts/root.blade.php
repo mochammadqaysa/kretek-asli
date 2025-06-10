@@ -40,8 +40,11 @@
   <link rel="stylesheet" href="{{ asset('assets/vendor/datatable-extensions/fixedColumns.bootstrap4.min.css') }}">
   <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
   
+  
 
   <link rel="stylesheet" href="{{ asset('assets/vendor/select2/dist/css/select2.min.css') }}">
+  
+  <link href="{{ asset('assets/vendor/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2/dist/sweetalert2.min.css') }}">
   <!-- Custom css -->
   <link rel="stylesheet" href="{{ asset('css/scrollbar.css') }}">
