@@ -74,7 +74,7 @@ use App\Helpers\Utils;
                       </svg></a></li>
                 </ul>
                 <div class="header-contacts"><a class="header-contacts__link" href="tel:+23254523235">+2 325 452 32 35</a>
-                  <p class="header-contacts__copyright">© Benhome 2021</p>
+                  <p class="header-contacts__copyright">© Rifki Pratama Oktavian</p>
                 </div>
               </div>
             </div>
@@ -393,35 +393,10 @@ use App\Helpers\Utils;
         <div class="container-big">
           <div class="footer-items">
             <div class="footer-item">
-              <div class="footer-logo"><span class="footer-logo-main">Benhome</span><span class="footer-logo-small">Arhitecture</span></div>
+              <div class="footer-logo"><span class="footer-logo-main"><img src="{{ asset('img/logo.png') }}" width="120" alt=""></span><span class="footer-logo-small"></span></div>
             </div>
             <div class="footer-item">
-              <p class="copyright">© Benhome 2021 <br> All Rights Resevered</p>
-            </div>
-            <div class="footer-item">
-              <ul class="footer-list">
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Site Map</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Term & Conditions</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Privacy Policy</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Help</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Affiliatep</a></li>
-              </ul>
-            </div>
-            <div class="footer-item footer-item--hide">
-              <ul class="footer-list">
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Home</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">About</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Portfolio</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">News</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">Contact</a></li>
-              </ul>
-            </div>
-            <div class="footer-item footer-item--hide">
-              <ul class="footer-list">
-                <li class="footer-list__item active"><a class="footer-list__link" href="#">ENG</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">FRA</a></li>
-                <li class="footer-list__item"><a class="footer-list__link" href="#">GER</a></li>
-              </ul>
+              <p class="copyright">© Rifki Pratama Oktavian <br> All Rights Resevered</p>
             </div>
             <div class="footer-item footer-item--hide">
               <ul class="footer-social">

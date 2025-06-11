@@ -54,8 +54,7 @@ class LandingPageController extends Controller
         try {
             $trxPatient = Patient::create([
                 'uid' => Str::uuid()->toString(),
-                'nama' => $data['nama'],
-                'created_by' => auth()->user()->uid,
+                'nama' => $data['nama']
             ]);
 
             $insertMetas = [];
@@ -82,7 +81,6 @@ class LandingPageController extends Controller
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
                     'status' => '0',
-                    'created_by' => auth()->user()->uid,
                 ]);
                 if ($appointment) {
                     return response([
