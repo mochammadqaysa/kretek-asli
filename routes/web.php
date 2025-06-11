@@ -30,6 +30,7 @@ use GuzzleHttp\Client;
 
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landing.index');
+Route::post('/appointment', [LandingPageController::class, 'create_appointment'])->name('landing.appointment');
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');

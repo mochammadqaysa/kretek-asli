@@ -10,4 +10,9 @@ class LandingPageController extends Controller
     {
         return view('pages.landing.index');
     }
+
+    public function create_appointment(Request $request) 
+    {
+        dd($request->all());
+    }
 }
