@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\PatientMeta;
 use App\Models\ScheduleSetting;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -44,7 +45,8 @@ class AppointmentController extends Controller
             $afternoon_schedule = explode(',', $schedule->meta_value);
         }
 
-        $body = view('pages.appointment.create', compact('day_schedule', 'morning_schedule', 'afternoon_schedule'))->render();
+        $service = Service::all();
+        $body = view('pages.appointment.create', compact('day_schedule', 'morning_schedule', 'afternoon_schedule', 'service'))->render();
         $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
 
@@ -68,6 +70,7 @@ class AppointmentController extends Controller
             'meta.tanggal_lahir' => 'required',
             'keluhan' => 'required',
             'appointment_date' => 'required',
+            'service' => 'required',
             'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
@@ -75,6 +78,7 @@ class AppointmentController extends Controller
             'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
+            'service.required' => 'Layanan harus dipilih',
             'status.required' => 'Status harus dipilih',
         ]);
         $data = $request->except('_token');
@@ -109,6 +113,7 @@ class AppointmentController extends Controller
                     'patient_uid' => $trxPatient->uid,
                     'keluhan' => $data['keluhan'],
                     'date_sched' => $data['appointment_date'],
+                    'service_uid' => $data['service'],
                     'status' => $data['status'],
                     'created_by' => auth()->user()->uid,
                 ]);
@@ -182,7 +187,8 @@ class AppointmentController extends Controller
                 $afternoon_schedule = explode(',', $schedule->meta_value);
             }
 
-            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta', 'day_schedule', 'morning_schedule', 'afternoon_schedule'))->render();
+            $service = Service::all();
+            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta', 'day_schedule', 'morning_schedule', 'afternoon_schedule', 'service'))->render();
             $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
             return [
@@ -211,6 +217,7 @@ class AppointmentController extends Controller
             'meta.tanggal_lahir' => 'required',
             'keluhan' => 'required',
             'appointment_date' => 'required',
+            'service' => 'required',
             'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
@@ -218,6 +225,7 @@ class AppointmentController extends Controller
             'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
+            'service.required' => 'Layanan harus dipilih',
             'status.required' => 'Status harus dipilih',
         ]);
         $formData = $request->except(["_token", "_method"]);
@@ -245,6 +253,7 @@ class AppointmentController extends Controller
             if ($trxMetas) {
                 $appointment->keluhan = $formData['keluhan'];
                 $appointment->date_sched = $formData['appointment_date'];
+                $appointment->service_uid = $formData['service'];
                 $appointment->status = $formData['status'];
                 $appointment->save();
                 return response([
@@ -288,6 +297,49 @@ class AppointmentController extends Controller
             } else {
                 return response()->json([
                     'message' => 'Gagal Menghapus Data'
+                ]);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'message' => 'Data Failed, this data is still used in other modules !'
+            ]);
+        }
+    }
+
+    public function confirm($uid)
+    {
+        if (!PermissionCommon::check('role.delete')) abort(403);
+        try {
+            $appointment = Appointment::find($uid);
+            $appointment->status = '1';
+            if ($appointment->save()) {
+                return response()->json([
+                    'message' => 'Berhasil Mengkonfirmasi Janji Temu'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Gagal Mengkonfirmasi Janji Temu'
+                ]);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'message' => 'Data Failed, this data is still used in other modules !'
+            ]);
+        }
+    }
+    public function cancel($uid)
+    {
+        if (!PermissionCommon::check('role.delete')) abort(403);
+        try {
+            $appointment = Appointment::find($uid);
+            $appointment->status = '2';
+            if ($appointment->save()) {
+                return response()->json([
+                    'message' => 'Berhasil Mengkonfirmasi Janji Temu'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Gagal Mengkonfirmasi Janji Temu'
                 ]);
             }
         } catch (\Illuminate\Database\QueryException $e) {

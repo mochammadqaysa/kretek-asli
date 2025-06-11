@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Helpers\PermissionCommon;
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -35,6 +36,11 @@ class AppointmentDataTable extends DataTable
                     $html .= '<button onclick="destroy(\'' . $item->uid . '\')" type="button" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash"></i></button>';
                 }
                 $html .= '</div>';
+                if ($item->status == '0') {
+                    $html .= '<br><button onclick="approve(\'' . $item->uid . '\')" type="button" class="btn btn-sm bg-success text-white mt-1" title="Konfirmasi Janji Temu"><i class="fas fa-clipboard-check"></i> Konfirmasi </button>';
+                    $html .= '<button onclick="reject(\'' . $item->uid . '\')" type="button" class="btn btn-sm bg-danger text-white mt-1" title="Tolak Janji Temu"><i class="fas fa-times-hexagon"></i> Tolak </button>';
+                }
+
                 return $html;
             })
 
@@ -54,6 +60,26 @@ class AppointmentDataTable extends DataTable
                 $query->orderBy(
                     Patient::select('patients.nama')
                         ->whereColumn('patients.uid', 'appointments.patient_uid')
+                        ->limit(1),
+                    $direction
+                );
+            })
+            ->addColumn('service', function ($data) {
+                $service = "";
+                if (isset($data->service)) {
+                    $service = $data->service->nama;
+                }
+                return $service;
+            })
+            ->filterColumn('service', function ($query, $keyword) {
+                $query->whereHas('service', function ($q) use ($keyword) {
+                    $q->where('nama', 'like', "%{$keyword}%");
+                });
+            })
+            ->orderColumn('service', function ($query, $direction) {
+                $query->orderBy(
+                    Service::select('services.nama')
+                        ->whereColumn('services.uid', 'appointments.service_uid')
                         ->limit(1),
                     $direction
                 );
@@ -107,9 +133,9 @@ class AppointmentDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        
+
         $button = [];
-         
+
         if (PermissionCommon::check('role.create')) {
             $button[] = Button::raw('<i class="fa fa-plus"></i> Tambah Janji Temu')->action('function() { create() }');
         }
@@ -146,6 +172,7 @@ class AppointmentDataTable extends DataTable
                 ->addClass('text-center');
         }
         $column[] = Column::make('patient')->title('Nama Pasien');
+        $column[] = Column::make('service')->title('Layanan');
         $column[] = Column::make('date_sched')->title('Schedule');
         $column[] = Column::make('keluhan');
         $column[] = Column::make('status');

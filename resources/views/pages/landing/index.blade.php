@@ -1,3 +1,6 @@
+@php
+use App\Helpers\Utils;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,11 +27,16 @@
     {{-- Date CSS --}}
     <link href="{{ asset('assets/vendor/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/flatpickr/material_blue.css') }}" rel="stylesheet">
+    {{-- Noty --}}
+    <link href="{{ asset('assets/vendor/noty/noty.css') }}" rel="stylesheet">
     <style>
       html {
         scroll-behavior: smooth;
       }
     </style>
+    <script>
+      var base_url = "{{ url('').'/' }}"
+    </script>
   </head>
   <body class="webpage">
     <div class="wrap animsition" data-animsition-in-class="fade-in" data-animsition-in-duration="1000" data-animsition-out-class="fade-out" data-animsition-out-duration="800">
@@ -323,37 +331,53 @@
                   </div>
                 </div>
                 <div class="col-xl-6 contact-item">
-                  <form class="contact-form" action="{{ route('landing.appointment') }}" method="POST">
+                  <form class="contact-form" id="myForm" action="{{ route('landing.appointment') }}" method="POST">
+                    @csrf
                     <h3 class="contact-form__title aos-init aos-animate" data-aos="fade"><span>Konsultasi Sekarang</span><br> Kami Siap Membantu Menangani Keluhan Tulang, Otot, dan Sendi Anda.</h3>
                     <div class="form-group aos-init aos-animate" data-aos="fade">
-                      <input class="form-control" type="text" placeholder="Nama Lengkap *">
+                      <label for="">Nama Lengkap *</label>
+                      <input class="form-control" type="text" name="nama" placeholder="Nama Lengkap *">
                     </div>
                     <div class="form-group-items">
                       <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <input class="form-control" type="email" placeholder="Email *">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="email" id="email" name="meta[email]" placeholder="Email">
                       </div>
                       <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <input class="form-control" type="text" placeholder="Kontak *">
-                      </div>
-                    </div>
-                    <div class="form-group-items">
-                      <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <input class="form-control" type="text" id="tanggal_lahir" name="tanggal_lahir" placeholder="Tanggal Lahir *">
-                      </div>
-                      <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <input class="form-control" type="text" placeholder="Jenis Kelamin *">
+                        <label for="kontak">Kontak (Nomor Aktif)</label>
+                        <input class="form-control" type="text" id="kontak" name="meta[kontak]" placeholder="Kontak">
                       </div>
                     </div>
                     <div class="form-group-items">
                       <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <input class="form-control" type="text" placeholder="Tanggal Janji Temu *">
+                        <label for="tanggal_lahir">Tanggal Lahir *</label>
+                        <input class="form-control" type="date" id="tanggal_lahir" name="meta[tanggal_lahir]" placeholder="Tanggal Lahir *">
                       </div>
                       <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <input class="form-control" type="text" placeholder="Pilih Layanan *">
+                        <label for="jenis_kelamin">Jenis Kelamin *</label>
+                        <select name="meta[jenis_kelamin]" id="jenis_kelamin" class="form-control">
+                          <option value="PRIA">Pria</option>
+                          <option value="WANITA">Wanita</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group-items">
+                      <div class="form-group aos-init aos-animate" data-aos="fade">
+                        <label for="appointment_date">Tanggal Janji Temu *</label>
+                        <input class="form-control" type="datetime-local" id="appointment_date" name="appointment_date" placeholder="Tanggal Janji Temu *">
+                      </div>
+                      <div class="form-group aos-init aos-animate" data-aos="fade">
+                        <label for="layanan">Pilih Layanan *</label>
+                        <select name="service" id="service" class="form-control">
+                          @foreach($services as $item)
+                            <option value="{{ $item->uid }}">{{ ucwords(strtolower($item->nama)) }} - {{ Utils::rupiah($item->harga) }}</option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                     <div class="form-group aos-init aos-animate" data-aos="fade">
-                      <textarea class="form-control" name="message" cols="30" rows="10" placeholder="Alamat *"></textarea>
+                      <label for="alamat">Alamat</label>
+                      <textarea class="form-control" id="alamat" name="meta[alamat]" cols="30" rows="10" placeholder="Alamat"></textarea>
                     </div>
                     <div class="form-group aos-init aos-animate" data-aos="fade">
                       <input class="btn contact-form__btn" type="button" onclick="save()" value="Buat Janji Temu">
@@ -428,8 +452,64 @@
     <script src="{{asset('landing/js/aos.js')}}"></script>
     <script src="{{asset('landing/js/mixitup.min.js')}}"></script>
     <script src="{{asset('landing/js/main.js')}}"></script>
-    <script src="{{ asset('assets/vendor/flatpickr/flatpickr.js') }}"></script>
+    
+    <script src="{{ asset('assets/vendor/jquery-block-ui/jquery-block-ui.js') }}"></script>
+    {{-- Noty JS --}}
+    <script src="{{ asset('assets/vendor/noty/noty.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/global.js') }}"></script>
+    
     <script>
+      function save(){
+        $('#response_container').empty();
+        Ryuna.blockUI();
+        let el_form = $('#myForm')
+        let target = el_form.attr('action')
+        let formData = new FormData(el_form[0])
+      
+        $.ajax({
+          url: target,
+          data: formData,
+          processData: false,
+          contentType: false,
+          type: 'POST',
+        }).done((res) => {
+          if(res?.status == true){
+            let html = '<div class="alert alert-success alert-dismissible fade show">'
+            html += `${res?.message}`
+            html += '</div>'
+            Ryuna.noty('success', '', res?.message)
+            $('#response_container').html(html)
+            Ryuna.unblockUI()
+      
+            el_form[0].reset()
+            if($('[name="_method"]').val() == undefined) {
+              // $('[name="appointment"]').val(null).trigger('change')
+              // $('[name="branch"]').val(null).trigger('change')
+              // $('[name="jobposition"]').val(null).trigger('change')
+            }
+          }
+        }).fail((xhr) => {
+          if(xhr?.status == 422){
+            let errors = xhr.responseJSON.errors
+            let html = '<div class="alert alert-danger alert-dismissible fade show">'
+            html += '<ul>';
+            for(let key in errors){
+              html += `<li>${errors[key]}</li>`;
+            }
+            html += '</ul>'
+            html += '</div>'
+            $('#response_container').html(html)
+            Ryuna.unblockUI()
+          }else{
+            let html = '<div class="alert alert-danger alert-dismissible fade show">'
+            html += `${xhr?.responseJSON?.message}`
+            html += '</div>'
+            Ryuna.noty('error', '', xhr?.responseJSON?.message)
+            $('#response_container').html(html)
+            Ryuna.unblockUI()
+          }
+        })
+      }
       $(document).ready(function() {
         // Saat scroll terjadi
         $(window).on('scroll', function() {
@@ -446,12 +526,86 @@
             }
           });
         });
+        const daySchedule = @json($day_schedule);
+        const morningSchedule = @json($morning_schedule);  // ["07:00", "12:00"]
+        const afternoonSchedule = @json($afternoon_schedule); // ["14:00", "17:00"]
+
+        const dayMap = {
+            Sunday: 0,
+            Monday: 1,
+            Tuesday: 2,
+            Wednesday: 3,
+            Thursday: 4,
+            Friday: 5,
+            Saturday: 6,
+        };
+
+        const activeDays = daySchedule.map(day => dayMap[day]);
+
+        // Fungsi untuk padding angka jadi 2 digit
+        const pad = (n) => n.toString().padStart(2, '0');
+
+        // Set minDate saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('appointment_date');
+            const now = new Date();
+
+            const formattedNow = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+            input.min = formattedNow;
+        });
+
+        function isTimeAllowed(date) {
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const totalMinutes = hours * 60 + minutes;
+
+            const [mStartH, mStartM] = morningSchedule[0].split(":").map(Number);
+            const [mEndH, mEndM] = morningSchedule[1].split(":").map(Number);
+            const [aStartH, aStartM] = afternoonSchedule[0].split(":").map(Number);
+            const [aEndH, aEndM] = afternoonSchedule[1].split(":").map(Number);
+
+            const morningStartMin = mStartH * 60 + mStartM;
+            const morningEndMin = mEndH * 60 + mEndM;
+            const afternoonStartMin = aStartH * 60 + aStartM;
+            const afternoonEndMin = aEndH * 60 + aEndM;
+
+            return (
+                (totalMinutes >= morningStartMin && totalMinutes <= morningEndMin) ||
+                (totalMinutes >= afternoonStartMin && totalMinutes <= afternoonEndMin)
+            );
+        }
+
+        document.getElementById('appointment_date').addEventListener('change', function () {
+            const input = this.value;
+            if (!input) return;
+
+            const selectedDate = new Date(input);
+            const now = new Date();
+
+            // Cek apakah tanggal di masa lalu
+            if (selectedDate < now) {
+                alert("Tidak dapat memilih waktu di masa lalu.");
+                this.value = '';
+                return;
+            }
+
+            const day = selectedDate.getDay();
+
+            if (!activeDays.includes(day)) {
+                alert("Hari yang dipilih tidak termasuk hari layanan.");
+                this.value = '';
+                return;
+            }
+
+            if (!isTimeAllowed(selectedDate)) {
+                alert("Waktu yang dipilih di luar jam layanan (pagi: " + morningSchedule.join(" - ") + ", siang: " + afternoonSchedule.join(" - ") + ").");
+                this.value = '';
+                return;
+            }
+        });
+
 
         
-        $('#tanggal_lahir').flatpickr({
-          static: true,
-          dateFormat: "Y-m-d",
-        })
       });
     </script>
   </body>

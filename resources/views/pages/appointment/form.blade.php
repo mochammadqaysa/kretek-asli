@@ -1,3 +1,6 @@
+@php
+use App\Helpers\Utils;
+@endphp
 <div class="row">
     <!-- Nama Lengkap -->
     <div class="form-group col-md-12">
@@ -47,6 +50,15 @@
     <div class="form-group col-md-12">
       <label>Keluhan <span class="text-danger">*</span></label>
       <textarea name="keluhan" placeholder="Keluhan" class="form-control">{{ old('keluhan', @$data->keluhan) }}</textarea>
+    </div>
+    <div class="form-group col-md-12">
+      <label>Layanan <span class="text-danger">*</span></label>
+      <select name="service" class="form-control select2" id="txtService">
+        @foreach($service as $item)
+          <option value="{{ $item->uid }}" {{ @$data->service->uid == $item->uid ? 'selected' : '' }}>{{ ucwords(strtolower($item->nama)) }} - {{ Utils::rupiah($item->harga) }}</option>
+        @endforeach
+      </select>
+      <div id="validationtxtService" class="invalid-feedback"></div>
     </div>
 
     <!-- Tanggal Janji Temu -->

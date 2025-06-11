@@ -191,6 +191,12 @@
               </tr>
               <tr>
                 <td>
+                  <h3 class="d-inline"><i class="fas fa-user-tag"></i></h3> Layanan
+                  <h3 id="d-layanan"></h3>
+                </td>
+              </tr>
+              <tr>
+                <td>
                   <h3 class="d-inline"><i class="fas fa-venus-mars"></i></h3> Jenis Kelamin
                   <h3 id="d-jenis-kelamin"></h3>
                 </td>
@@ -282,12 +288,12 @@
 			// Edit calendar event action
 
 			eventClick: function(event, element) {
-
 				$('#detail-event').modal('show');
-        $('#d-nama').html(event.title + ' <span class="badge text-white '+event.className+'">' + event.message + '</span>');
+        $('#d-nama').html(event.nama + ' <span class="badge text-white '+event.className+'">' + event.message + '</span>');
         event.jenis_kelamin = event.jenis_kelamin.charAt(0).toUpperCase() + event.jenis_kelamin.slice(1);
         $('#d-jenis-kelamin').text(event.jenis_kelamin);
         $('#d-tanggal-lahir').text(event.tanggal_lahir);
+        $('#d-layanan').text(event.layanan + ' - ' + event.harga);
         $('#d-email').text(event.email);
         $('#d-telpon').text(event.kontak);
         $('#d-alamat').text(event.alamat);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2025 at 12:12 PM
+-- Generation Time: Jun 11, 2025 at 07:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -30,8 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointments` (
   `uid` varchar(40) NOT NULL,
   `patient_uid` varchar(40) DEFAULT NULL,
+  `service_uid` varchar(40) DEFAULT NULL,
   `date_sched` datetime NOT NULL,
-  `keluhan` text NOT NULL,
+  `keluhan` text DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(40) DEFAULT NULL
@@ -41,9 +42,10 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`uid`, `patient_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
-('0a93b7ce-dd9c-4b2b-a86d-2b5202c5d358', 'b3ceaa78-dfdb-4773-a4a0-de75e0618cec', '2025-06-10 14:00:00', 'pengen dipijit aja', 2, '2025-06-10 03:18:38', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('0d0a1137-1c8e-4248-8f80-4cc2df96b0c7', 'de4cb802-a7d2-4726-996c-956b4773e814', '2025-06-09 12:00:00', 'Sakit Awak', 1, '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
+INSERT INTO `appointments` (`uid`, `patient_uid`, `service_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
+('0a93b7ce-dd9c-4b2b-a86d-2b5202c5d358', 'b3ceaa78-dfdb-4773-a4a0-de75e0618cec', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', '2025-06-10 14:00:00', 'pengen dipijit aja', 1, '2025-06-10 03:18:38', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('0d0a1137-1c8e-4248-8f80-4cc2df96b0c7', 'de4cb802-a7d2-4726-996c-956b4773e814', 'c9ef66e0-0566-4011-a668-392157bd1ef3', '2025-06-09 12:00:00', 'Sakit Awak', 1, '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('42cff628-57d6-449d-bad5-b73a07ceaad3', '098268d1-d59c-4851-ad2a-15dd8776d5aa', '249e9d71-8fb9-4afd-af93-24bd680adce9', '2025-06-11 11:58:00', NULL, 1, '2025-06-11 02:57:27', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
 
@@ -218,6 +220,8 @@ CREATE TABLE `patients` (
 --
 
 INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'Mochammad Qaysa Al-Haq', '2025-06-11 02:57:27', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'Mochammad Qaysa Al-Haq', '2025-06-11 02:56:46', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'Mokhammad Arip', '2025-06-10 03:18:38', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('de4cb802-a7d2-4726-996c-956b4773e814', 'Rifky Pratama', '2025-06-09 16:00:50', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
@@ -249,7 +253,19 @@ INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
 ('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'kontak', NULL),
 ('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'email', NULL),
 ('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'tanggal_lahir', '2025-01-01'),
-('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'alamat', 'dimana mana hatiku senang');
+('b3ceaa78-dfdb-4773-a4a0-de75e0618cec', 'alamat', 'dimana mana hatiku senang'),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'nama', 'Mochammad Qaysa Al-Haq'),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'email', 'rifky@gmail.com'),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'kontak', NULL),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'tanggal_lahir', '2003-01-11'),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'jenis_kelamin', 'PRIA'),
+('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'alamat', NULL),
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'nama', 'Mochammad Qaysa Al-Haq'),
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'email', 'rifky@gmail.com'),
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'kontak', NULL),
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'tanggal_lahir', '2003-01-11'),
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'jenis_kelamin', 'PRIA'),
+('098268d1-d59c-4851-ad2a-15dd8776d5aa', 'alamat', NULL);
 
 -- --------------------------------------------------------
 
@@ -382,6 +398,33 @@ INSERT INTO `schedule_settings` (`meta_field`, `meta_value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `services`
+--
+
+CREATE TABLE `services` (
+  `uid` varchar(40) NOT NULL,
+  `nama` varchar(40) DEFAULT NULL,
+  `deskripsi` text DEFAULT NULL,
+  `harga` decimal(20,3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`uid`, `nama`, `deskripsi`, `harga`) VALUES
+('249e9d71-8fb9-4afd-af93-24bd680adce9', 'BEKAM BASAH', 'Bekam basah, cangkir akan dibiarkan menempel dalam waktu yang ditentukan, biasanya sekitar 3 menit. kemudian ditusukan jarum kecil pada kulit agar darah kotor keluar. Efektif untuk yang mempunyai penyakit dalam seperti hipertensi. Cukup membayar 100 ribu rupiah.', 100000.000),
+('3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'KRETEK ASLI', 'Fullbody kretek dan fokus pada satu titik keluhan. Cukup membayar 200 ribu rupiah dengan durasi 20-25 menit.', 200000.000),
+('46c68fb3-9ec0-4f56-b50b-68004372d64f', 'KRETEK ASLI RETOS', 'Kretek Fullbody + Keluhan + Reposisi tulang otot sendi. Cukup membayar 300 ribu rupiah dengan durasi 30-40 menit.', 300000.000),
+('5552d020-d45d-4d3f-b1d9-fe77e505e8fc', 'FISIKAL PROBLEM', 'Bantu penanganan fokus pada 1 keluhan fisik yang ingin diatasi. Cukup membayar 150 ribu rupiah dengan durasi 15 menit.', 150000.000),
+('85219a38-18ff-436a-a38d-fb65452a841e', 'TOTOK DARAH (AL FASHDU)', 'Pengobatan dengan cara mengeluarkan darah dari pembuluh darah vena. Disarankan untuk yang mempunyai keluhan hipertensi, kolesterol, asam urat, diabetes. Cukup membayar 100 ribu rupiah dengan durasi 30 menit.', 100000.000),
+('95b73568-82f9-4b3f-94a7-f1f0f8b39435', 'KRETEK FLASH', 'Rasakan sensasi kretek fullbody untuk Anda yang memiliki keluhan pegal-pegal dan ingin coba kretek untuk relaksasi dan kebugaran, Cukup membayar 100 ribu rupiah dengan durasi 10 sampai 15 menit.', 100000.000),
+('aa623b08-b4a9-433a-9b06-7d1c0fa0194a', 'SPORT MASSAGE / INJURY', 'Terapi pijat kombinasi cedera olahraga dan gerakan dasar kretek. Cukup membayar 200 ribu rupiah dengan durasi 30 menit.', 200000.000),
+('c9ef66e0-0566-4011-a668-392157bd1ef3', 'BEKAM KERING', 'Bekam kering, cangkir akan dibiarkan menempel dalam waktu yang ditentukan, biasanya sekitar 3 menit. Berfungsi untuk menarik otot dalam atau mengeluarkan angin dalam tubuh dan melenturkan otot. Cukup membayar 100 ribu rupiah.', 100000.000);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -447,7 +490,8 @@ INSERT INTO `users` (`uid`, `id`, `name`, `profile_picture`, `username`, `passwo
 --
 ALTER TABLE `appointments`
   ADD PRIMARY KEY (`uid`),
-  ADD KEY `patient_uid` (`patient_uid`);
+  ADD KEY `patient_uid` (`patient_uid`),
+  ADD KEY `appointments_ibfk_2` (`service_uid`);
 
 --
 -- Indexes for table `cache`
@@ -545,6 +589,12 @@ ALTER TABLE `role_permissions`
   ADD KEY `permission_uid` (`permission_uid`);
 
 --
+-- Indexes for table `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`uid`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -606,7 +656,8 @@ ALTER TABLE `users`
 -- Constraints for table `appointments`
 --
 ALTER TABLE `appointments`
-  ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_uid`) REFERENCES `patients` (`uid`) ON DELETE CASCADE;
+  ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_uid`) REFERENCES `patients` (`uid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`service_uid`) REFERENCES `services` (`uid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `modules`

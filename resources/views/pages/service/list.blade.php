@@ -1,14 +1,14 @@
 @extends('layouts.root')
 
-@section('title', 'Janji Temu')
+@section('title', 'Layanan')
 
 @section('breadcrum')
 <div class="col-lg-6 col-7">
-  <h6 class="h2 text-white d-inline-block mb-0">Janji Temu</h6>
+  <h6 class="h2 text-white d-inline-block mb-0">Layanan</h6>
   <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
     <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-      <li class="breadcrumb-item"><a href="#"><i class="fas fa-clipboard-list"></i></a></li>
-      <li class="breadcrumb-item active" aria-current="page">Janji Temu</li>
+      <li class="breadcrumb-item"><a href="#"><i class="fas fa-hands-helping"></i></a></li>
+      <li class="breadcrumb-item active" aria-current="page">Layanan</li>
     </ol>
   </nav>
 </div>
@@ -35,12 +35,10 @@
 {!! $dataTable->scripts() !!}
 <script>
   let _url = {
-    create: `{{ route('appointment.create') }}`,
-    edit: `{{ route('appointment.edit', ':id') }}`,
-    show: `{{ route('appointment.show', ':id') }}`,
-    destroy: `{{ route('appointment.destroy', ':id') }}`,
-    confirm: `{{ route('appointment.confirm', ':id') }}`,
-    cancel: `{{ route('appointment.cancel', ':id') }}`
+    create: `{{ route('service.create') }}`,
+    edit: `{{ route('service.edit', ':id') }}`,
+    show: `{{ route('service.show', ':id') }}`,
+    destroy: `{{ route('service.destroy', ':id') }}`
   }
 
   function create(){
@@ -66,6 +64,7 @@
   function edit(id){
     Ryuna.blockUI()
     $.get(_url.edit.replace(':id', id)).done((res) => {
+      Ryuna.large_modal()
       Ryuna.modal({
         title: res?.title,
         body: res?.body,
@@ -107,11 +106,8 @@
   
         if($('[name="_method"]').val() == undefined) {
           el_form[0].reset()
-          // $('[name="appointment"]').val(null).trigger('change')
-          // $('[name="branch"]').val(null).trigger('change')
-          // $('[name="jobposition"]').val(null).trigger('change')
         }
-        window.LaravelDataTables["appointment-table"].draw()
+        window.LaravelDataTables["service-table"].draw()
       }
     }).fail((xhr) => {
       if(xhr?.status == 422){
@@ -162,7 +158,7 @@
             type: 'success',
             confirmButtonColor: '#007bff'
           })
-        window.LaravelDataTables["appointment-table"].draw()
+        window.LaravelDataTables["service-table"].draw()
         }).fail((xhr) => {
           Swal.fire({
             title: xhr.responseJSON.message,
@@ -174,81 +170,6 @@
       }
     })
   }
-  function approve(id){
-    Swal.fire({
-      title: 'Apakah anda yakin ingin mengkonfirmasi janji temu ini?',
-      text: "",
-      type: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#dc3545',
-      cancelButtonColor: '#007bff',
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No'
-    }).then((result) => {
-      console.log(result)
-      if (result.value) {
-        $.ajax({
-          url: _url.confirm.replace(':id', id),
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          type: 'POST',
-        }).done((res) => {
-          Swal.fire({
-            title: res.message,
-            text: '',
-            type: 'success',
-            confirmButtonColor: '#007bff'
-          })
-        window.LaravelDataTables["appointment-table"].draw()
-        }).fail((xhr) => {
-          Swal.fire({
-            title: xhr.responseJSON.message,
-            text: '',
-            type: 'error',
-            confirmButtonColor: '#007bff'
-          })
-        })
-      }
-    })
-  }
-  function cancel(id){
-    Swal.fire({
-      title: 'Apakah anda yakin ingin membatalkan janji temu ini?',
-      text: "",
-      type: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#dc3545',
-      cancelButtonColor: '#007bff',
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'No'
-    }).then((result) => {
-      console.log(result)
-      if (result.value) {
-        $.ajax({
-          url: _url.cancel.replace(':id', id),
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          type: 'POST',
-        }).done((res) => {
-          Swal.fire({
-            title: res.message,
-            text: '',
-            type: 'success',
-            confirmButtonColor: '#007bff'
-          })
-        window.LaravelDataTables["appointment-table"].draw()
-        }).fail((xhr) => {
-          Swal.fire({
-            title: xhr.responseJSON.message,
-            text: '',
-            type: 'error',
-            confirmButtonColor: '#007bff'
-          })
-        })
-      }
-    })
-  }
+
 </script>
 @endsection

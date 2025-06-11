@@ -8,6 +8,7 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleSettingController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\PengadilanAuth;
 use App\Mail\MailPemohon;
@@ -37,14 +38,18 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('/login_process', [AuthController::class, 'login_process'])->name('auth.login_process');
 
 Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
+    Route::post('/appointment/confirm/{uid}', [AppointmentController::class, 'confirm'])->name('appointment.confirm');
+    Route::post('/appointment/cancel/{uid}', [AppointmentController::class, 'cancel'])->name('appointment.cancel');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.inventory');
     Route::resources(['user' => UserController::class]);
     Route::resources(['role' => RoleController::class]);
     Route::resources(['module' => ModuleController::class]);
     Route::resources(['permission' => PermissionController::class]);
+    Route::resources(['service' => ServiceController::class]);
     Route::resources(['appointment' => AppointmentController::class]);
     Route::resources(['schedule_setting' => ScheduleSettingController::class]);
+
 
 
 
