@@ -41,12 +41,14 @@ class LandingPageController extends Controller
             'meta.jenis_kelamin' => 'required',
             'meta.tanggal_lahir' => 'required',
             'service' => 'required',
+            'keluhan' => 'required',
             'appointment_date' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
             'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
             'service.required' => 'Layanan harus dipilih',
+            'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
         ]);
         $data = $request->except('_token');
@@ -80,6 +82,7 @@ class LandingPageController extends Controller
                     'patient_uid' => $trxPatient->uid,
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
+                    'keluhan' => $data['keluhan'],
                     'status' => '0',
                 ]);
                 if ($appointment) {

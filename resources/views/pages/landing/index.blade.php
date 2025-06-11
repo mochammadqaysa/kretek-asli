@@ -376,6 +376,10 @@ use App\Helpers\Utils;
                       </div>
                     </div>
                     <div class="form-group aos-init aos-animate" data-aos="fade">
+                      <label for="keluhan">Keluhan *</label>
+                      <textarea class="form-control" id="keluhan" name="keluhan" cols="30" rows="10" placeholder="Keluhan"></textarea>
+                    </div>
+                    <div class="form-group aos-init aos-animate" data-aos="fade">
                       <label for="alamat">Alamat</label>
                       <textarea class="form-control" id="alamat" name="meta[alamat]" cols="30" rows="10" placeholder="Alamat"></textarea>
                     </div>
