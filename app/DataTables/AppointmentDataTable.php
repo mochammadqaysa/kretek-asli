@@ -36,10 +36,10 @@ class AppointmentDataTable extends DataTable
                     $html .= '<button onclick="destroy(\'' . $item->uid . '\')" type="button" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash"></i></button>';
                 }
                 $html .= '</div>';
-                if ($item->status == '0') {
-                    $html .= '<br><button onclick="approve(\'' . $item->uid . '\')" type="button" class="btn btn-sm bg-success text-white mt-1" title="Konfirmasi Janji Temu"><i class="fas fa-clipboard-check"></i> Konfirmasi </button>';
-                    $html .= '<button onclick="reject(\'' . $item->uid . '\')" type="button" class="btn btn-sm bg-danger text-white mt-1" title="Tolak Janji Temu"><i class="fas fa-times-hexagon"></i> Tolak </button>';
-                }
+                // if ($item->status == '0') {
+                //     $html .= '<br><button onclick="approve(\'' . $item->uid . '\')" type="button" class="btn btn-sm bg-success text-white mt-1" title="Konfirmasi Janji Temu"><i class="fas fa-clipboard-check"></i> Konfirmasi </button>';
+                //     $html .= '<button onclick="reject(\'' . $item->uid . '\')" type="button" class="btn btn-sm bg-danger text-white mt-1" title="Tolak Janji Temu"><i class="fas fa-times-hexagon"></i> Tolak </button>';
+                // }
 
                 return $html;
             })

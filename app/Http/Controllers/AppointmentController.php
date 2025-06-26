@@ -71,7 +71,7 @@ class AppointmentController extends Controller
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'service' => 'required',
-            'status' => 'required',
+            // 'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
@@ -79,7 +79,7 @@ class AppointmentController extends Controller
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
             'service.required' => 'Layanan harus dipilih',
-            'status.required' => 'Status harus dipilih',
+            // 'status.required' => 'Status harus dipilih',
         ]);
         $data = $request->except('_token');
         // dd($data);
@@ -114,7 +114,7 @@ class AppointmentController extends Controller
                     'keluhan' => $data['keluhan'],
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
-                    'status' => $data['status'],
+                    'status' => '1',
                     'created_by' => auth()->user()->uid,
                 ]);
                 if ($appointment) {
@@ -218,7 +218,7 @@ class AppointmentController extends Controller
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'service' => 'required',
-            'status' => 'required',
+            // 'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
@@ -226,7 +226,7 @@ class AppointmentController extends Controller
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
             'service.required' => 'Layanan harus dipilih',
-            'status.required' => 'Status harus dipilih',
+            // 'status.required' => 'Status harus dipilih',
         ]);
         $formData = $request->except(["_token", "_method"]);
         try {
@@ -254,7 +254,7 @@ class AppointmentController extends Controller
                 $appointment->keluhan = $formData['keluhan'];
                 $appointment->date_sched = $formData['appointment_date'];
                 $appointment->service_uid = $formData['service'];
-                $appointment->status = $formData['status'];
+                // $appointment->status = $formData['status'];
                 $appointment->save();
                 return response([
                     'status' => true,

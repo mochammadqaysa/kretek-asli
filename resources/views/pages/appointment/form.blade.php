@@ -62,7 +62,7 @@ use App\Helpers\Utils;
     </div>
 
     <!-- Tanggal Janji Temu -->
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label>Tanggal Janji Temu <span class="text-danger">*</span></label>
       <input type="text" class="form-control" name="appointment_date" id="appointment_date"
         placeholder="Pilih Tanggal Janji Temu"
@@ -70,7 +70,7 @@ use App\Helpers\Utils;
     </div>
 
     <!-- Status -->
-    <div class="form-group col-md-6">
+    <!-- <div class="form-group col-md-6">
       <label>Status <span class="text-danger">*</span></label>
       @php
         $statusList = [
@@ -85,7 +85,7 @@ use App\Helpers\Utils;
         @endforeach
       </select>
       <div id="validationtxtStatus" class="invalid-feedback"></div>
-    </div>
+    </div> -->
 <script>
   $(() => {
     const daySchedule = @json($day_schedule);

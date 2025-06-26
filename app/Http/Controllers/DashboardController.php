@@ -41,8 +41,6 @@ class DashboardController extends Controller
                 'keluhan' => $value->keluhan,
                 'layanan' => $value->service ? $value->service->nama : 'Unknown',
                 'harga' => $value->service ? Utils::rupiah($value->service->harga) : 'Unknown',
-                'status' => $value->status,
-                'message' => $value->status == '0' ? 'Pending' : ($value->status == '1' ? 'Dikonfirmasi' : 'Ditolak'),
                 'className' => $value->status == '0' ? 'bg-info' : ($value->status == '1' ? 'bg-success' : 'bg-danger'),
                 ...($patientMetas ? $meta : []),
             ];

@@ -185,7 +185,7 @@ $user = AuthCommon::getUser();
     time_24hr: true,
     static: true,
     minTime: "16:00",
-    maxTime: "18:00",
+    maxTime: "00:00",
   })
 
 </script>
