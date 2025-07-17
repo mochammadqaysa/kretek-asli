@@ -83,7 +83,7 @@ class LandingPageController extends Controller
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
                     'keluhan' => $data['keluhan'],
-                    'status' => '0',
+                    'status' => '1',
                 ]);
                 if ($appointment) {
                     return response([
