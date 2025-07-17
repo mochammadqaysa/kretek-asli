@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\PatientMeta;
 use App\Models\ScheduleSetting;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -54,6 +55,19 @@ class LandingPageController extends Controller
         $data = $request->except('_token');
         // dd($data);
         try {
+            $date = Carbon::parse($data['appointment_date']);
+            $startTime = $date->copy()->startOfHour();
+            $endTime = $date->copy()->endOfHour();
+
+            $appointmentCount = Appointment::whereBetween('date_sched', [$startTime, $endTime])->count();
+
+            if ($appointmentCount >= 4) {
+                return response([
+                    'status' => false,
+                    'message' => 'Jam janji temu sudah penuh'
+                ], 400);
+            }
+
             $trxPatient = Patient::create([
                 'uid' => Str::uuid()->toString(),
                 'nama' => $data['nama']
