@@ -103,6 +103,24 @@ class AppointmentController extends Controller
                 ], 400);
             }
 
+            $terapisBooked = Appointment::where('terapis_uid', $data['terapis'])
+                ->whereBetween('date_sched', [$startTime, $endTime])
+                ->exists();
+
+            // dd([
+            //     'terapis' => $data['terapis'],
+            //     'start' => $startTime,
+            //     'end' => $endTime,
+            //     'exists' => $terapisBooked
+            // ]);
+
+            if ($terapisBooked) {
+                return response([
+                    'status' => false,
+                    'message' => 'Terapis sudah memiliki janji temu di waktu yang sama'
+                ], 400);
+            }
+
             $trxPatient = Patient::create([
                 'uid' => Str::uuid()->toString(),
                 'nama' => $data['nama'],
@@ -133,6 +151,7 @@ class AppointmentController extends Controller
                     'keluhan' => $data['keluhan'],
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
+                    'terapis_uid' => $data['terapis'],
                     'status' => '1',
                     'created_by' => auth()->user()->uid,
                 ]);
@@ -207,7 +226,8 @@ class AppointmentController extends Controller
             }
 
             $service = Service::all();
-            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta', 'day_schedule', 'morning_schedule', 'afternoon_schedule', 'service'))->render();
+            $cabang = Cabang::all();
+            $body = view('pages.appointment.edit', compact('uid', 'data', 'dataMeta', 'day_schedule', 'morning_schedule', 'afternoon_schedule', 'service', 'cabang'))->render();
             $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
             return [

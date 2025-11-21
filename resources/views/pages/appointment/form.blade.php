@@ -65,17 +65,16 @@ use App\Helpers\Utils;
       <label>Cabang <span class="text-danger">*</span></label>
       <select name="cabang" class="form-control select2" id="txtCabang">
         @foreach($cabang as $item)
-          <option value="{{ $item->uid }}" {{ @$data->cabang->uid == $item->uid ? 'selected' : '' }}>{{ ucwords(strtolower($item->nama)) }}</option>
+          <option value="{{ $item->uid }}" {{ @$data->terapis->cabang->uid == $item->uid ? 'selected' : '' }}>{{ ucwords(strtolower($item->nama)) }}</option>
         @endforeach
       </select>
       <div id="validationtxtCabang" class="invalid-feedback"></div>
     </div>
-
     <div class="form-group col-md-12">
       <label>Terapis <span class="text-danger">*</span></label>
       <select name="terapis" class="form-control" disabled id="terapis">
         <option value=""></option>
-        @if(isset($data->terapis->uid))
+        @if(isset($data->terapis))
         <option value="{{ $data->terapis->uid }}" selected>{{ $data->terapis->nama }}</option>
         @endif
       </select>
@@ -229,7 +228,7 @@ use App\Helpers\Utils;
     
     var initialCabang = $('#txtCabang').val();
     if(initialCabang) {
-      $('#terapis').val(null).trigger('change');
+      // $('#terapis').val(null).trigger('change');
       $('#terapis').prop('disabled', false);
       loadTerapis(initialCabang);
     }

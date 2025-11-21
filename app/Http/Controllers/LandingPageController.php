@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Cabang;
 use App\Models\Patient;
 use App\Models\PatientMeta;
 use App\Models\ScheduleSetting;
 use App\Models\Service;
+use App\Models\Terapis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,7 +33,9 @@ class LandingPageController extends Controller
             $afternoon_schedule = explode(',', $schedule->meta_value);
         }
         $services = Service::all();
-        return view('pages.landing.index', compact('day_schedule', 'morning_schedule', 'afternoon_schedule', 'services'));
+        $cabang = Cabang::all();
+        $terapis = Terapis::all();
+        return view('pages.landing.index', compact('day_schedule', 'morning_schedule', 'afternoon_schedule', 'services', 'cabang', 'terapis'));
     }
 
     public function create_appointment(Request $request)
@@ -68,6 +72,17 @@ class LandingPageController extends Controller
                 ], 400);
             }
 
+            $terapisBooked = Appointment::where('terapis_uid', $data['terapis'])
+                ->whereBetween('date_sched', [$startTime, $endTime])
+                ->exists();
+
+            if ($terapisBooked) {
+                return response([
+                    'status' => false,
+                    'message' => 'Terapis sudah memiliki janji temu di waktu yang sama'
+                ], 400);
+            }
+
             $trxPatient = Patient::create([
                 'uid' => Str::uuid()->toString(),
                 'nama' => $data['nama']
@@ -96,6 +111,7 @@ class LandingPageController extends Controller
                     'patient_uid' => $trxPatient->uid,
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
+                    'terapis_uid' => $data['terapis'],
                     'keluhan' => $data['keluhan'],
                     'status' => '1',
                 ]);
