@@ -150,7 +150,7 @@ class AppointmentDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom("<'row'<'col-sm-6'B><'col-sm-3'f><'col-sm-3'l>> <'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>")
-            ->orderBy(1)
+            ->orderBy(3)
             ->scrollY(350)
             // ->selectStyleSingle()
             ->buttons($button);

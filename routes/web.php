@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CabangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ModuleController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleSettingController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TerapisController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\PengadilanAuth;
 use App\Mail\MailPemohon;
@@ -45,6 +47,8 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
     Route::resources(['user' => UserController::class]);
     Route::resources(['role' => RoleController::class]);
     Route::resources(['module' => ModuleController::class]);
+    Route::resources(['cabang' => CabangController::class]);
+    Route::resources(['terapis' => TerapisController::class]);
     Route::resources(['permission' => PermissionController::class]);
     Route::resources(['service' => ServiceController::class]);
     Route::resources(['appointment' => AppointmentController::class]);
@@ -84,6 +88,7 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
     });
     Route::prefix('select2')->group(function () {
         Route::get('/role', [RoleController::class, 'select2'])->name('select2.role');
+        Route::get('/terapis', [TerapisController::class, 'select2'])->name('select2.terapis');
     });
 
     Route::get('/form_profile', [UserController::class, 'edit_profile'])->name('form.profile');

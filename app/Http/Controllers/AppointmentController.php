@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\AppointmentDataTable;
 use App\Helpers\PermissionCommon;
 use App\Models\Appointment;
+use App\Models\Cabang;
 use App\Models\Patient;
 use App\Models\PatientMeta;
 use App\Models\ScheduleSetting;
@@ -47,7 +48,8 @@ class AppointmentController extends Controller
         }
 
         $service = Service::all();
-        $body = view('pages.appointment.create', compact('day_schedule', 'morning_schedule', 'afternoon_schedule', 'service'))->render();
+        $cabang = Cabang::all();
+        $body = view('pages.appointment.create', compact('day_schedule', 'morning_schedule', 'afternoon_schedule', 'service', 'cabang'))->render();
         $footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" onclick="save()">Save</button>';
 
@@ -72,6 +74,8 @@ class AppointmentController extends Controller
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'service' => 'required',
+            'cabang' => 'required',
+            'terapis' => 'required',
             // 'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
@@ -80,10 +84,11 @@ class AppointmentController extends Controller
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
             'service.required' => 'Layanan harus dipilih',
+            'cabang.required' => 'Cabang harus dipilih',
+            'terapis.required' => 'Terapis harus dipilih',
             // 'status.required' => 'Status harus dipilih',
         ]);
         $data = $request->except('_token');
-        // dd($data);
         try {
             $date = Carbon::parse($data['appointment_date']);
             $startTime = $date->copy()->startOfHour();

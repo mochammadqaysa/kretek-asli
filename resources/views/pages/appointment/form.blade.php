@@ -61,6 +61,26 @@ use App\Helpers\Utils;
       <div id="validationtxtService" class="invalid-feedback"></div>
     </div>
 
+    <div class="form-group col-md-12">
+      <label>Cabang <span class="text-danger">*</span></label>
+      <select name="cabang" class="form-control select2" id="txtCabang">
+        @foreach($cabang as $item)
+          <option value="{{ $item->uid }}" {{ @$data->cabang->uid == $item->uid ? 'selected' : '' }}>{{ ucwords(strtolower($item->nama)) }}</option>
+        @endforeach
+      </select>
+      <div id="validationtxtCabang" class="invalid-feedback"></div>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label>Terapis <span class="text-danger">*</span></label>
+      <select name="terapis" class="form-control" disabled id="terapis">
+        <option value=""></option>
+        @if(isset($data->terapis->uid))
+        <option value="{{ $data->terapis->uid }}" selected>{{ $data->terapis->nama }}</option>
+        @endif
+      </select>
+    </div>
+
     <!-- Tanggal Janji Temu -->
     <div class="form-group col-md-12">
       <label>Tanggal Janji Temu <span class="text-danger">*</span></label>
@@ -88,6 +108,9 @@ use App\Helpers\Utils;
     </div> -->
 <script>
   $(() => {
+    let _urls = {
+      terapis_select2: `{{ route('select2.terapis') }}`,
+    };
     const daySchedule = @json($day_schedule);
     const morningSchedule = @json($morning_schedule);  // ["07:00", "12:00"]
     const afternoonSchedule = @json($afternoon_schedule); // ["14:00", "17:00"]
@@ -150,6 +173,75 @@ use App\Helpers\Utils;
             }
         }
     });
+
+    function formatResultCustomer(res) {
+      if (res.loading) return res.text;
+      
+      const $container = $(
+        `<div class='select2-result-repository clearfix'>
+          <div class='select2-result-repository__avatar'><img src='${base_url}img/default-avatar.png'/></div>
+          <div class='select2-result-repository__meta'>
+            <div class='select2-result-repository__title'>${res.nama || '-'}</div>
+            <div class='select2-result-repository__description'>${''}</div>
+          </div>
+        </div>`
+      );
+      
+      return $container;
+    }
+
+    function formatSelectionCustomer(res) {
+      return res.nama || res.text;
+    }
+
+    function loadTerapis(tipe) {
+      $('#terapis').select2({
+        ajax: {
+          url: _urls.terapis_select2,
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              term: params.term,
+              page: params.page || 0,
+              limit: 10,
+              cabang: tipe
+            };
+          },
+          processResults: function (data, params) {
+            params.page = params.page || 0;
+            let check = params.page + 1;
+            return {
+              results: data.items,
+              pagination: {
+                more: (data.total - (check * 10)) > 0
+              }
+            };
+          },
+          cache: true
+        },
+        placeholder: 'Choose One',
+        templateResult: formatResultCustomer,
+        templateSelection: formatSelectionCustomer
+      });
+    }
+
+    
+    var initialCabang = $('#txtCabang').val();
+    if(initialCabang) {
+      $('#terapis').val(null).trigger('change');
+      $('#terapis').prop('disabled', false);
+      loadTerapis(initialCabang);
+    }
+
+    $("#txtCabang").change(function() {
+      var cabang = $(this).val();
+      $('#terapis').val(null).trigger('change');
+      $('#terapis').prop('disabled', false);
+      loadTerapis(cabang);
+    });
+
+    
 
 
   })

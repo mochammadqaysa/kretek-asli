@@ -17,6 +17,7 @@ class Appointment extends Model
         'uid',
         'patient_uid',
         'service_uid',
+        'terapis_uid',
         'date_sched',
         'keluhan',
         'status',
@@ -35,5 +36,10 @@ class Appointment extends Model
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_uid', 'uid');
+    }
+
+    public function terapis()
+    {
+        return $this->belongsTo(Terapis::class, 'terapis_uid', 'uid');
     }
 }

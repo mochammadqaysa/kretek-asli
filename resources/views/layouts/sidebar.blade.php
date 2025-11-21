@@ -42,6 +42,8 @@
       $obj_menu->init()
       ->start_group()
       ->item('Dashboard', 'fas fa-chart-area', 'app/dashboard', Request::is('app/dashboard'), "dashboard.view")
+      ->item('Cabang', 'fas fa-building', 'app/cabang', Request::is('app/cabang'), "dashboard.view")
+      ->item('Terapis', 'fas fa-user-md', 'app/terapis', Request::is('app/terapis'), "dashboard.view")
       ->item('Layanan', 'fas fa-hands-helping', 'app/service', Request::is('app/service'), "dashboard.view")
       ->item('Janji Temu', 'fas fa-clipboard-list', 'app/appointment', Request::is('app/appointment'), "dashboard.view")
       ->item('Atur Jadwal', 'fas fa-calendar-day', 'app/schedule_setting', Request::is('app/schedule_setting'), "dashboard.view")
