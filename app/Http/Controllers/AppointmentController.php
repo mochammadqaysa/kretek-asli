@@ -90,9 +90,21 @@ class AppointmentController extends Controller
         ]);
         $data = $request->except('_token');
         try {
+            // Ambil data service untuk mendapatkan durasi
+            $service = Service::find($data['service']);
+
+            if (!$service) {
+                return response([
+                    'status' => false,
+                    'message' => 'Layanan tidak ditemukan'
+                ], 400);
+            }
+
             $date = Carbon::parse($data['appointment_date']);
-            $startTime = $date->copy()->startOfHour();
-            $endTime = $date->copy()->endOfHour();
+
+            // Hitung waktu mulai dan selesai berdasarkan durasi service
+            $startTime = $date->copy();
+            $endTime = $date->copy()->addMinutes($service->durasi);
 
             $appointmentCount = Appointment::whereBetween('date_sched', [$startTime, $endTime])->count();
 
@@ -103,16 +115,26 @@ class AppointmentController extends Controller
                 ], 400);
             }
 
+            // Cek apakah terapis sudah memiliki jadwal yang bentrok
+            // Kita perlu cek appointment yang:
+            // 1. Punya terapis yang sama
+            // 2. Waktu appointment overlap dengan waktu yang diminta
             $terapisBooked = Appointment::where('terapis_uid', $data['terapis'])
-                ->whereBetween('date_sched', [$startTime, $endTime])
+                ->where(function ($query) use ($startTime, $endTime) {
+                    $query->where(function ($q) use ($startTime, $endTime) {
+                        // Cek jika appointment baru dimulai di tengah appointment yang sudah ada
+                        $q->whereRaw(
+                            'date_sched <= ? AND DATE_ADD(date_sched, INTERVAL (SELECT durasi FROM services WHERE uid = service_uid) MINUTE) > ?',
+                            [$startTime, $startTime]
+                        );
+                    })
+                        ->orWhere(function ($q) use ($startTime, $endTime) {
+                            // Cek jika appointment yang sudah ada dimulai di tengah appointment baru
+                            $q->where('date_sched', '>=', $startTime)
+                                ->where('date_sched', '<', $endTime);
+                        });
+                })
                 ->exists();
-
-            // dd([
-            //     'terapis' => $data['terapis'],
-            //     'start' => $startTime,
-            //     'end' => $endTime,
-            //     'exists' => $terapisBooked
-            // ]);
 
             if ($terapisBooked) {
                 return response([
@@ -257,6 +279,8 @@ class AppointmentController extends Controller
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'service' => 'required',
+            'cabang' => 'required',
+            'terapis' => 'required',
             // 'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
@@ -265,13 +289,73 @@ class AppointmentController extends Controller
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
             'service.required' => 'Layanan harus dipilih',
+            'cabang.required' => 'Cabang harus dipilih',
+            'terapis.required' => 'Terapis harus dipilih',
             // 'status.required' => 'Status harus dipilih',
         ]);
         $formData = $request->except(["_token", "_method"]);
         try {
+            // Ambil data service untuk mendapatkan durasi
+            $service = Service::find($formData['service']);
+
+            if (!$service) {
+                return response([
+                    'status' => false,
+                    'message' => 'Layanan tidak ditemukan'
+                ], 400);
+            }
+
+            $date = Carbon::parse($formData['appointment_date']);
+
+            // Hitung waktu mulai dan selesai berdasarkan durasi service
+            $startTime = $date->copy();
+            $endTime = $date->copy()->addMinutes($service->durasi);
+
+            // Cek jumlah appointment di waktu yang sama (kecuali appointment yang sedang diedit)
+            $appointmentCount = Appointment::whereBetween('date_sched', [$startTime, $endTime])
+                ->where('uid', '!=', $appointment->uid) // Exclude appointment yang sedang diedit
+                ->count();
+
+            if ($appointmentCount >= 4) {
+                return response([
+                    'status' => false,
+                    'message' => 'Jam janji temu sudah penuh'
+                ], 400);
+            }
+
+            // Cek apakah terapis sudah memiliki jadwal yang bentrok
+            // Kecuali appointment yang sedang diedit
+            $terapisBooked = Appointment::where('terapis_uid', $formData['terapis'])
+                ->where('uid', '!=', $appointment->uid) // Exclude appointment yang sedang diedit
+                ->where(function ($query) use ($startTime, $endTime) {
+                    $query->where(function ($q) use ($startTime, $endTime) {
+                        // Cek jika appointment baru dimulai di tengah appointment yang sudah ada
+                        $q->whereRaw(
+                            'date_sched <= ? AND DATE_ADD(date_sched, INTERVAL (SELECT durasi FROM services WHERE uid = service_uid) MINUTE) > ?',
+                            [$startTime, $startTime]
+                        );
+                    })
+                        ->orWhere(function ($q) use ($startTime, $endTime) {
+                            // Cek jika appointment yang sudah ada dimulai di tengah appointment baru
+                            $q->where('date_sched', '>=', $startTime)
+                                ->where('date_sched', '<', $endTime);
+                        });
+                })
+                ->exists();
+
+            if ($terapisBooked) {
+                return response([
+                    'status' => false,
+                    'message' => 'Terapis sudah memiliki janji temu di waktu yang sama'
+                ], 400);
+            }
+
+            // Update patient data
             $patient = $appointment->patient;
             $patient->nama = $formData['nama'];
             $patient->save();
+
+            // Update patient meta
             $insertMetas = [];
             $insertMetas[] = [
                 'patient_uid' => $patient->uid,
@@ -289,12 +373,17 @@ class AppointmentController extends Controller
             }
             $trxMetas = PatientMeta::where('patient_uid', $patient->uid)->delete();
             $trxMetas = PatientMeta::insert($insertMetas);
+
             if ($trxMetas) {
+                // Update appointment data
                 $appointment->keluhan = $formData['keluhan'];
                 $appointment->date_sched = $formData['appointment_date'];
                 $appointment->service_uid = $formData['service'];
+                $appointment->terapis_uid = $formData['terapis'];
+                $appointment->cabang_uid = $formData['cabang'];
                 // $appointment->status = $formData['status'];
                 $appointment->save();
+
                 return response([
                     'status' => true,
                     'message' => 'Berhasil Mengubah Janji Temu'

@@ -46,11 +46,14 @@ class ServiceController extends Controller
             'nama' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
+            'durasi' => 'required|numeric',
         ], [
             'nama.required' => 'Nama Layanan harus diisi',
             'deskripsi.required' => 'Deskripsi Layanan harus diisi',
             'harga.required' => 'Harga Layanan harus diisi',
             'harga.numeric' => 'Harga harus berupa angka',
+            'durasi.required' => 'Durasi Layanan harus diisi',
+            'durasi.numeric' => 'Durasi harus berupa angka',
         ]);
         $data = $request->except('_token');
         try {
@@ -59,6 +62,7 @@ class ServiceController extends Controller
                 'nama' => $data['nama'],
                 'deskripsi' => $data['deskripsi'],
                 'harga' => $data['harga'],
+                'durasi' => $data['durasi'],
             ]);
             if ($trx) {
                 return response([
@@ -127,11 +131,14 @@ class ServiceController extends Controller
             'nama' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
+            'durasi' => 'required|numeric',
         ], [
             'nama.required' => 'Nama Layanan harus diisi',
             'deskripsi.required' => 'Deskripsi Layanan harus diisi',
             'harga.required' => 'Harga Layanan harus diisi',
             'harga.numeric' => 'Harga harus berupa angka',
+            'durasi.required' => 'Durasi Layanan harus diisi',
+            'durasi.numeric' => 'Durasi harus berupa angka',
         ]);
         $formData = $request->except(["_token", "_method"]);
         try {

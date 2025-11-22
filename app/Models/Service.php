@@ -18,6 +18,7 @@ class Service extends Model
         'nama',
         'deskripsi',
         'harga',
+        'durasi',
     ];
 
     protected $casts = [

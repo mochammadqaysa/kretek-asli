@@ -15,4 +15,9 @@
       <input type="number" name="harga" class="form-control" placeholder="Harga" value="{{ @$data->harga }}">
     </div>
 
+    <div class="form-group col-md-12">
+      <label>Durasi <span class="text-danger">*</span></label>
+      <input type="number" name="durasi" class="form-control" placeholder="Durasi" value="{{ @$data->durasi }}">
+    </div>
+
 </div>

@@ -55,7 +55,7 @@ use App\Helpers\Utils;
       <label>Layanan <span class="text-danger">*</span></label>
       <select name="service" class="form-control select2" id="txtService">
         @foreach($service as $item)
-          <option value="{{ $item->uid }}" {{ @$data->service->uid == $item->uid ? 'selected' : '' }}>{{ ucwords(strtolower($item->nama)) }} - {{ Utils::rupiah($item->harga) }}</option>
+          <option value="{{ $item->uid }}" {{ @$data->service->uid == $item->uid ? 'selected' : '' }}>{{ ucwords(strtolower($item->nama)) }} - {{ Utils::rupiah($item->harga) }} ({{ $item->durasi }} menit)</option>
         @endforeach
       </select>
       <div id="validationtxtService" class="invalid-feedback"></div>

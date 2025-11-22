@@ -109,6 +109,7 @@ class ServiceDataTable extends DataTable
                 ->addClass('text-center');
         }
         $column[] = Column::make('nama');
+        $column[] = Column::make('durasi')->title('Durasi (menit)');
         $column[] = Column::make('harga');
         $column[] = Column::make('deskripsi')->addClass('text-wrap');
         return $column;
