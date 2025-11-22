@@ -370,7 +370,7 @@ use App\Helpers\Utils;
                         <label for="layanan">Pilih Layanan *</label>
                         <select name="service" id="service" class="form-control">
                           @foreach($services as $item)
-                            <option value="{{ $item->uid }}">{{ ucwords(strtolower($item->nama)) }} - {{ Utils::rupiah($item->harga) }}</option>
+                            <option value="{{ $item->uid }}">{{ ucwords(strtolower($item->nama)) }} - {{ Utils::rupiah($item->harga) }} ({{ $item->durasi }} menit)</option>
                           @endforeach
                         </select>
                       </div>

@@ -48,6 +48,8 @@ class LandingPageController extends Controller
             'service' => 'required',
             'keluhan' => 'required',
             'appointment_date' => 'required',
+            'terapis' => 'required',
+            // 'cabang' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
@@ -55,14 +57,29 @@ class LandingPageController extends Controller
             'service.required' => 'Layanan harus dipilih',
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
+            'terapis.required' => 'Terapis harus dipilih',
+            // 'cabang.required' => 'Cabang harus dipilih',
         ]);
         $data = $request->except('_token');
         // dd($data);
         try {
-            $date = Carbon::parse($data['appointment_date']);
-            $startTime = $date->copy()->startOfHour();
-            $endTime = $date->copy()->endOfHour();
+            // Ambil data service untuk mendapatkan durasi
+            $service = Service::find($data['service']);
 
+            if (!$service) {
+                return response([
+                    'status' => false,
+                    'message' => 'Layanan tidak ditemukan'
+                ], 400);
+            }
+
+            $date = Carbon::parse($data['appointment_date']);
+
+            // Hitung waktu mulai dan selesai berdasarkan durasi service
+            $startTime = $date->copy();
+            $endTime = $date->copy()->addMinutes($service->durasi);
+
+            // Cek jumlah appointment di waktu yang sama
             $appointmentCount = Appointment::whereBetween('date_sched', [$startTime, $endTime])->count();
 
             if ($appointmentCount >= 4) {
@@ -72,8 +89,23 @@ class LandingPageController extends Controller
                 ], 400);
             }
 
+            // Cek apakah terapis sudah memiliki jadwal yang bentrok
+            // Validasi overlap waktu berdasarkan durasi service
             $terapisBooked = Appointment::where('terapis_uid', $data['terapis'])
-                ->whereBetween('date_sched', [$startTime, $endTime])
+                ->where(function ($query) use ($startTime, $endTime) {
+                    $query->where(function ($q) use ($startTime, $endTime) {
+                        // Cek jika appointment baru dimulai di tengah appointment yang sudah ada
+                        $q->whereRaw(
+                            'date_sched <= ? AND DATE_ADD(date_sched, INTERVAL (SELECT durasi FROM services WHERE uid = service_uid) MINUTE) > ?',
+                            [$startTime, $startTime]
+                        );
+                    })
+                        ->orWhere(function ($q) use ($startTime, $endTime) {
+                            // Cek jika appointment yang sudah ada dimulai di tengah appointment baru
+                            $q->where('date_sched', '>=', $startTime)
+                                ->where('date_sched', '<', $endTime);
+                        });
+                })
                 ->exists();
 
             if ($terapisBooked) {
@@ -112,6 +144,7 @@ class LandingPageController extends Controller
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
                     'terapis_uid' => $data['terapis'],
+                    // 'cabang_uid' => $data['cabang'],
                     'keluhan' => $data['keluhan'],
                     'status' => '1',
                 ]);
