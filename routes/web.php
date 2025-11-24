@@ -89,6 +89,7 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
     Route::prefix('select2')->group(function () {
         Route::get('/role', [RoleController::class, 'select2'])->name('select2.role');
         Route::get('/terapis', [TerapisController::class, 'select2'])->name('select2.terapis');
+        Route::get('/patient', [AppointmentController::class, 'select2Patient'])->name('select2.patient');
     });
 
     Route::get('/form_profile', [UserController::class, 'edit_profile'])->name('form.profile');

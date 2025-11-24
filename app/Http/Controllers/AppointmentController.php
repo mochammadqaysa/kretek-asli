@@ -76,7 +76,6 @@ class AppointmentController extends Controller
             'service' => 'required',
             'cabang' => 'required',
             'terapis' => 'required',
-            // 'status' => 'required',
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
@@ -86,11 +85,10 @@ class AppointmentController extends Controller
             'service.required' => 'Layanan harus dipilih',
             'cabang.required' => 'Cabang harus dipilih',
             'terapis.required' => 'Terapis harus dipilih',
-            // 'status.required' => 'Status harus dipilih',
         ]);
+
         $data = $request->except('_token');
         try {
-            // Ambil data service untuk mendapatkan durasi
             $service = Service::find($data['service']);
 
             if (!$service) {
@@ -101,8 +99,6 @@ class AppointmentController extends Controller
             }
 
             $date = Carbon::parse($data['appointment_date']);
-
-            // Hitung waktu mulai dan selesai berdasarkan durasi service
             $startTime = $date->copy();
             $endTime = $date->copy()->addMinutes($service->durasi);
 
@@ -115,21 +111,15 @@ class AppointmentController extends Controller
                 ], 400);
             }
 
-            // Cek apakah terapis sudah memiliki jadwal yang bentrok
-            // Kita perlu cek appointment yang:
-            // 1. Punya terapis yang sama
-            // 2. Waktu appointment overlap dengan waktu yang diminta
             $terapisBooked = Appointment::where('terapis_uid', $data['terapis'])
                 ->where(function ($query) use ($startTime, $endTime) {
                     $query->where(function ($q) use ($startTime, $endTime) {
-                        // Cek jika appointment baru dimulai di tengah appointment yang sudah ada
                         $q->whereRaw(
                             'date_sched <= ? AND DATE_ADD(date_sched, INTERVAL (SELECT durasi FROM services WHERE uid = service_uid) MINUTE) > ?',
                             [$startTime, $startTime]
                         );
                     })
                         ->orWhere(function ($q) use ($startTime, $endTime) {
-                            // Cek jika appointment yang sudah ada dimulai di tengah appointment baru
                             $q->where('date_sched', '>=', $startTime)
                                 ->where('date_sched', '<', $endTime);
                         });
@@ -143,11 +133,27 @@ class AppointmentController extends Controller
                 ], 400);
             }
 
-            $trxPatient = Patient::create([
-                'uid' => Str::uuid()->toString(),
-                'nama' => $data['nama'],
-                'created_by' => auth()->user()->uid,
-            ]);
+            // Cek apakah patient sudah ada (dari select2) atau buat baru
+            if (!empty($data['patient_uid'])) {
+                // Gunakan patient yang sudah ada
+                $trxPatient = Patient::find($data['patient_uid']);
+
+                // Update nama jika berbeda
+                if ($trxPatient->nama != $data['nama']) {
+                    $trxPatient->nama = $data['nama'];
+                    $trxPatient->save();
+                }
+
+                // Update patient metas
+                PatientMeta::where('patient_uid', $trxPatient->uid)->delete();
+            } else {
+                // Buat patient baru
+                $trxPatient = Patient::create([
+                    'uid' => Str::uuid()->toString(),
+                    'nama' => $data['nama'],
+                    'created_by' => auth()->user()->uid,
+                ]);
+            }
 
             $insertMetas = [];
             $insertMetas[] = [
@@ -199,11 +205,6 @@ class AppointmentController extends Controller
             return response([
                 'status' => false,
                 'message' => 'Terjadi Kesalahan Internal'
-            ], 400);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return response([
-                'status' => false,
-                'message' => 'Terjadi Kesalahan Internal',
             ], 400);
         }
     }
@@ -475,5 +476,44 @@ class AppointmentController extends Controller
                 'message' => 'Data Failed, this data is still used in other modules !'
             ]);
         }
+    }
+
+    public function select2Patient(Request $request)
+    {
+        $term = $request->input('term', '');
+        $page = $request->input('page', 0);
+        $limit = $request->input('limit', 10);
+
+        $query = Patient::with('metas') // Eager load metas
+            ->where('nama', 'LIKE', "%{$term}%")
+            ->skip($page * $limit)
+            ->take($limit);
+
+        $patients = $query->get();
+        $total = Patient::where('nama', 'LIKE', "%{$term}%")->count();
+
+        $items = $patients->map(function ($patient) {
+            // Gunakan relationship metas yang sudah di-load
+            $metaData = [];
+            foreach ($patient->metas as $meta) {
+                $metaData[$meta->meta_field] = $meta->meta_value;
+            }
+
+            return [
+                'id' => $patient->uid,
+                'text' => $patient->nama,
+                'nama' => $patient->nama,
+                'jenis_kelamin' => $metaData['jenis_kelamin'] ?? '',
+                'kontak' => $metaData['kontak'] ?? '',
+                'email' => $metaData['email'] ?? '',
+                'tanggal_lahir' => $metaData['tanggal_lahir'] ?? '',
+                'alamat' => $metaData['alamat'] ?? '',
+            ];
+        });
+
+        return response()->json([
+            'items' => $items,
+            'total' => $total
+        ]);
     }
 }

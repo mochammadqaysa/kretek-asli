@@ -22,4 +22,10 @@ class Patient extends Model
     protected $casts = [
         'uid' => 'string',
     ];
+
+    // Tambahkan relationship ini
+    public function metas()
+    {
+        return $this->hasMany(PatientMeta::class, 'patient_uid', 'uid');
+    }
 }

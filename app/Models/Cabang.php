@@ -17,6 +17,8 @@ class Cabang extends Model
         'uid',
         'nama',
         'alamat',
+        'map_link',
+        'img_path',
         'created_by',
     ];
 

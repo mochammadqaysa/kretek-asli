@@ -45,15 +45,36 @@ class CabangController extends Controller
         $request->validate([
             'nama' => 'required',
             'alamat' => 'required',
+            'img_path' => 'mimes:jpg,jpeg,png|max:2048',
         ], [
             'nama.required' => 'Nama Cabang harus diisi',
             'alamat.required' => 'Alamat Cabang harus diisi',
+            'img_path.mimes' => 'Gambar harus berformat jpg, jpeg, atau png',
+            'img_path.max' => 'Ukuran gambar maksimal 2MB',
         ]);
         $data = $request->except('_token');
         try {
+            $filename = null;
+
+            if ($request->hasFile('img_path')) {
+                $file = $request->file('img_path');
+
+                // Determine the new file name
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+
+                // Delete the old profile image if it exists
+
+                // Save the new file
+                // $path = $file->move(public_path('upload'), $filename);
+
+                // Update the form data with the new file name
+                $formData['img_path'] = $filename;
+            }
             $trx = Cabang::create([
                 'uid' => Str::uuid()->toString(),
                 'nama' => $data['nama'],
+                'map_link' => $data['map_link'],
+                'img_path' => $filename,
                 'alamat' => $data['alamat'],
             ]);
             if ($trx) {
@@ -128,6 +149,28 @@ class CabangController extends Controller
         ]);
         $formData = $request->except(["_token", "_method"]);
         try {
+            if ($request->hasFile('img_path')) {
+                $file = $request->file('img_path');
+
+                // Validate the new file
+                $request->validate([
+                    'img_path' => 'mimes:jpg,jpeg,png|max:2048',
+                ]);
+
+                // Determine the new file name
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+
+                // Delete the old profile image if it exists
+                if ($cabang->img_path && file_exists(public_path('upload/' . $cabang->img_path))) {
+                    unlink(public_path('upload/' . $cabang->img_path));
+                }
+
+                // Save the new file
+                $path = $file->move(public_path('upload'), $filename);
+
+                // Update the form data with the new file name
+                $formData['img_path'] = $filename;
+            }
             $trx = $cabang->update($formData);
             if ($trx) {
                 return response([

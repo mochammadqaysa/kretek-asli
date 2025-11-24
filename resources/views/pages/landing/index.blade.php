@@ -298,6 +298,126 @@ use App\Helpers\Utils;
             </div>
           </div>
         </section>
+        
+        <section class="section project">
+          <div class="container">
+            <h2 class="project-title aos-init aos-animate" data-aos="fade">Cabang Kami.</h2>
+          </div>
+          <div class="project-slider aos-init aos-animate" data-aos="fade">
+            <div class="swiper-container js-project">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="project-slide">
+                    <div class="project-slide__img"><img src="images/600x566.png" alt=""></div>
+                    <div class="project-slide__hover">
+                      <div class="project-slide__info">
+                        <h3 class="project-slide__title">House in <br>Forest</h3>
+                        <div class="project-slide__descr">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"  are also reproduced in their  accompanied by English 14 translation by H. Rackham.</div>
+                      </div>
+                      <div class="project-slide__btns"><a class="project-slide__btn" href="#"><i class="svg-image-btn-arrow"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-button-prev">
+                <svg width="18" height="33" viewBox="0 0 18 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="17.1111" y1="32.0838" x2="1.29289" y2="16.2656" stroke="black" stroke-width="2"></line>
+                  <line x1="1.29289" y1="16.3578" x2="16.3578" y2="1.2929" stroke="black" stroke-width="2"></line>
+                </svg>
+              </div>
+              <div class="swiper-button-next">
+                <svg width="18" height="33" viewBox="0 0 18 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="17.1111" y1="32.0838" x2="1.29289" y2="16.2656" stroke="black" stroke-width="2"></line>
+                  <line x1="1.29289" y1="16.3578" x2="16.3578" y2="1.2929" stroke="black" stroke-width="2"></line>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
         <section class="section contact" id="hubungi">
           <div class="contact-cnt">
             <div class="container">
