@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2025 at 09:31 AM
+-- Generation Time: Nov 24, 2025 at 01:07 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,18 +44,13 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`uid`, `patient_uid`, `service_uid`, `terapis_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
-('06f74c20-64f2-45a8-ad12-31ddff7c9f35', '52235a23-911e-4fc6-99c6-5bc92a4f4c20', '249e9d71-8fb9-4afd-af93-24bd680adce9', '50d0b01d-4b63-4391-9ae5-e04de9fe0244', '2025-11-21 16:00:00', 'asd', 1, '2025-11-21 08:30:48', NULL),
-('0a6241b7-bce2-4829-b732-389bd58e72f6', '5414690d-54a8-4c0f-8de2-cdf09194dad2', '249e9d71-8fb9-4afd-af93-24bd680adce9', NULL, '2025-07-22 19:00:00', 'sakit jari', 1, '2025-07-19 12:58:55', NULL),
-('102e5fef-7828-43b9-8913-cfb4a1a30eeb', '04173860-5611-45e3-8a25-57c35e460fd9', '249e9d71-8fb9-4afd-af93-24bd680adce9', NULL, '2025-07-22 19:00:00', 'sakit rahang', 1, '2025-07-19 12:58:14', NULL),
+('0cbfa882-a8f2-43a3-8a0f-00c8633f86c7', 'bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-24 08:30:00', 'sakit', 1, '2025-11-22 18:13:51', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('456ae502-d5f9-4bb7-bb2c-2fb0acbaf40a', '7a2a2d8a-829f-473c-972e-c6c0b42923f8', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-17 20:00:00', 'loro awak', 1, '2025-07-17 07:37:01', NULL),
 ('6085a123-615e-4873-953e-9c952946d63c', '7b7f8c3f-630a-4657-9bf5-b24b9b31f816', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-17 20:00:00', 'loroo', 1, '2025-07-17 07:38:32', NULL),
-('9c21a3e5-83d9-48de-82eb-73f14c535992', 'b5e7d2a7-0d0b-48f8-abdb-bc4b79d54bee', '249e9d71-8fb9-4afd-af93-24bd680adce9', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-21 13:00:00', '123', 1, '2025-11-21 08:09:30', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('bc732732-6090-4922-8f62-ed64a4ad36ca', '6de95bb7-078b-4a5f-a17f-c4993fcc02ca', '249e9d71-8fb9-4afd-af93-24bd680adce9', NULL, '2025-07-22 19:00:00', 'sakit tangan', 1, '2025-07-19 12:57:28', NULL),
+('88e00478-ecce-46f9-8d23-29408700fd7f', 'b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-24 09:00:00', 'sakiut', 1, '2025-11-22 18:35:40', NULL),
 ('c809f61e-de58-4eb2-86c0-631fd59457e2', '02b8947f-ba03-400a-88c9-eaa6fe39fb97', '46c68fb3-9ec0-4f56-b50b-68004372d64f', NULL, '2025-07-17 20:00:00', 'rareti', 1, '2025-07-17 07:39:15', NULL),
-('d4b88428-e3cc-4f34-8a0d-6bfceb4769fb', '4797c859-e113-471b-bf1c-5525ed906f84', '249e9d71-8fb9-4afd-af93-24bd680adce9', NULL, '2025-07-17 20:00:00', 'loro kabeh', 1, '2025-07-17 07:37:49', NULL),
-('e13a3432-7170-49f3-8820-99cb0a1074c4', '60ccec07-d962-49e0-9937-936d2126bda2', '249e9d71-8fb9-4afd-af93-24bd680adce9', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-21 16:00:00', 'asd', 1, '2025-11-21 08:26:09', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('e81962e4-118a-41e7-b6ab-65658bdd515c', '77551b1a-d0c2-41dd-b26e-f6585deb55ee', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-22 19:00:00', 'sakit kaki', 1, '2025-07-19 12:53:55', NULL),
 ('ec4ac523-eeea-48a3-acd7-92f6e01f0979', 'e999f450-411d-42ca-97fb-29cbcb318e67', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-17 13:00:00', 'pinggang sakit', 1, '2025-07-15 04:49:31', NULL),
+('ec9a1125-5bf0-48bc-b961-c22288730de6', 'da0c31b7-8955-4c0f-a920-f20285688f79', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-24 08:00:00', 'sakit', 1, '2025-11-22 18:12:01', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('fdeb4ab8-c6bd-483d-8e3c-310bc74c1561', '8e90d224-f6bf-4e78-915e-45f830b09702', '95b73568-82f9-4b3f-94a7-f1f0f8b39435', NULL, '2025-07-15 15:30:00', 'pinggang sakit', 1, '2025-07-15 05:30:26', NULL);
 
 -- --------------------------------------------------------
@@ -263,13 +258,16 @@ INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
 ('5414690d-54a8-4c0f-8de2-cdf09194dad2', 'toni', '2025-07-19 12:58:55', NULL),
 ('60ccec07-d962-49e0-9937-936d2126bda2', 'MAGNUM', '2025-11-21 08:26:09', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'angga', '2025-07-19 12:57:28', NULL),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'rifki', '2025-07-19 12:53:55', NULL),
 ('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'Aku', '2025-07-17 07:37:01', NULL),
 ('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'koen', '2025-07-17 07:38:32', NULL),
 ('8e90d224-f6bf-4e78-915e-45f830b09702', 'Rifki Pratama OKtavian', '2025-07-15 05:30:26', NULL),
 ('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'Rifki Pratama OKtavian', '2025-06-11 06:03:14', NULL),
 ('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'Mochammad Qaysa Al-Haq', '2025-06-11 02:56:46', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'Fajar', '2025-11-22 18:35:02', NULL),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'Fajar', '2025-11-22 18:35:40', NULL),
 ('b5e7d2a7-0d0b-48f8-abdb-bc4b79d54bee', 'ABS', '2025-11-21 08:09:30', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'Fauzan', '2025-11-22 18:13:51', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'Ahdim', '2025-11-22 18:12:01', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('e999f450-411d-42ca-97fb-29cbcb318e67', 'indra permana', '2025-07-15 04:49:31', NULL);
 
 -- --------------------------------------------------------
@@ -343,12 +341,6 @@ INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
 ('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'tanggal_lahir', '1998-04-02'),
 ('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'jenis_kelamin', 'PRIA'),
 ('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'alamat', 'cibiru'),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'nama', 'rifki'),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'email', 'rifki@gmail.com'),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'kontak', '0866876567'),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'tanggal_lahir', '2001-05-08'),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'jenis_kelamin', 'PRIA'),
-('77551b1a-d0c2-41dd-b26e-f6585deb55ee', 'alamat', 'kircon'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'nama', 'angga'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'email', 'angga@gmail.com'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'kontak', '08765678'),
@@ -384,7 +376,31 @@ INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
 ('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'kontak', NULL),
 ('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'tanggal_lahir', '2025-11-21'),
 ('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'jenis_kelamin', 'PRIA'),
-('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'alamat', NULL);
+('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'alamat', NULL),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'nama', 'Ahdim'),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'jenis_kelamin', 'PRIA'),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'kontak', NULL),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'email', NULL),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'tanggal_lahir', '2025-11-23'),
+('da0c31b7-8955-4c0f-a920-f20285688f79', 'alamat', NULL),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'nama', 'Fauzan'),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'jenis_kelamin', 'PRIA'),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'kontak', NULL),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'email', NULL),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'tanggal_lahir', '2025-11-23'),
+('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'alamat', NULL),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'nama', 'Fajar'),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'email', NULL),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'kontak', NULL),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'tanggal_lahir', '2025-11-23'),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'jenis_kelamin', 'PRIA'),
+('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'alamat', NULL),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'nama', 'Fajar'),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'email', NULL),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'kontak', NULL),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'tanggal_lahir', '2025-11-23'),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'jenis_kelamin', 'PRIA'),
+('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'alamat', NULL);
 
 -- --------------------------------------------------------
 
@@ -524,22 +540,20 @@ CREATE TABLE `services` (
   `uid` varchar(40) NOT NULL,
   `nama` varchar(40) DEFAULT NULL,
   `deskripsi` text DEFAULT NULL,
-  `harga` decimal(20,3) DEFAULT NULL
+  `harga` decimal(20,3) DEFAULT NULL,
+  `durasi` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`uid`, `nama`, `deskripsi`, `harga`) VALUES
-('249e9d71-8fb9-4afd-af93-24bd680adce9', 'BEKAM BASAH', 'Bekam basah, cangkir akan dibiarkan menempel dalam waktu yang ditentukan, biasanya sekitar 3 menit. kemudian ditusukan jarum kecil pada kulit agar darah kotor keluar. Efektif untuk yang mempunyai penyakit dalam seperti hipertensi. Cukup membayar 100 ribu rupiah.', 100000.000),
-('3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'KRETEK ASLI', 'Fullbody kretek dan fokus pada satu titik keluhan. Cukup membayar 200 ribu rupiah dengan durasi 20-25 menit.', 200000.000),
-('46c68fb3-9ec0-4f56-b50b-68004372d64f', 'KRETEK ASLI RETOS', 'Kretek Fullbody + Keluhan + Reposisi tulang otot sendi. Cukup membayar 300 ribu rupiah dengan durasi 30-40 menit.', 300000.000),
-('5552d020-d45d-4d3f-b1d9-fe77e505e8fc', 'FISIKAL PROBLEM', 'Bantu penanganan fokus pada 1 keluhan fisik yang ingin diatasi. Cukup membayar 150 ribu rupiah dengan durasi 15 menit.', 150000.000),
-('85219a38-18ff-436a-a38d-fb65452a841e', 'TOTOK DARAH (AL FASHDU)', 'Pengobatan dengan cara mengeluarkan darah dari pembuluh darah vena. Disarankan untuk yang mempunyai keluhan hipertensi, kolesterol, asam urat, diabetes. Cukup membayar 100 ribu rupiah dengan durasi 30 menit.', 100000.000),
-('95b73568-82f9-4b3f-94a7-f1f0f8b39435', 'KRETEK FLASH', 'Rasakan sensasi kretek fullbody untuk Anda yang memiliki keluhan pegal-pegal dan ingin coba kretek untuk relaksasi dan kebugaran, Cukup membayar 100 ribu rupiah dengan durasi 10 sampai 15 menit.', 100000.000),
-('aa623b08-b4a9-433a-9b06-7d1c0fa0194a', 'SPORT MASSAGE / INJURY', 'Terapi pijat kombinasi cedera olahraga dan gerakan dasar kretek. Cukup membayar 200 ribu rupiah dengan durasi 30 menit.', 200000.000),
-('c9ef66e0-0566-4011-a668-392157bd1ef3', 'BEKAM KERING', 'Bekam kering, cangkir akan dibiarkan menempel dalam waktu yang ditentukan, biasanya sekitar 3 menit. Berfungsi untuk menarik otot dalam atau mengeluarkan angin dalam tubuh dan melenturkan otot. Cukup membayar 100 ribu rupiah.', 100000.000);
+INSERT INTO `services` (`uid`, `nama`, `deskripsi`, `harga`, `durasi`) VALUES
+('3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'KRETEK ASLI', 'Fullbody kretek dan fokus pada satu titik keluhan. Cukup membayar 200 ribu rupiah dengan durasi 20-25 menit.', 200000.000, 30),
+('46c68fb3-9ec0-4f56-b50b-68004372d64f', 'KRETEK ASLI RETOS', 'Kretek Fullbody + Keluhan + Reposisi tulang otot sendi. Cukup membayar 300 ribu rupiah dengan durasi 30-40 menit.', 300000.000, 40),
+('5552d020-d45d-4d3f-b1d9-fe77e505e8fc', 'FISIKAL PROBLEM', 'Bantu penanganan fokus pada 1 keluhan fisik yang ingin diatasi. Cukup membayar 150 ribu rupiah dengan durasi 15 menit.', 150000.000, 15),
+('95b73568-82f9-4b3f-94a7-f1f0f8b39435', 'KRETEK FLASH', 'Rasakan sensasi kretek fullbody untuk Anda yang memiliki keluhan pegal-pegal dan ingin coba kretek untuk relaksasi dan kebugaran, Cukup membayar 100 ribu rupiah dengan durasi 10 sampai 15 menit.', 100000.000, 15),
+('aa623b08-b4a9-433a-9b06-7d1c0fa0194a', 'SPORT MASSAGE / INJURY', 'Terapi pijat kombinasi cedera olahraga dan gerakan dasar kretek. Cukup membayar 200 ribu rupiah dengan durasi 30 menit.', 200000.000, 25);
 
 -- --------------------------------------------------------
 
