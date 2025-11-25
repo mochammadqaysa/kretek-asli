@@ -178,4 +178,50 @@ class LandingPageController extends Controller
             ], 400);
         }
     }
+
+    public function nearest_cabang(Request $request)
+    {
+        $request->validate([
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        $userLat = $request->latitude;
+        $userLon = $request->longitude;
+
+        $cabangList = Cabang::all();
+        $cabangWithDistance = [];
+
+        foreach ($cabangList as $cabang) {
+            if ($cabang->latitude && $cabang->longitude) {
+                $distance = Cabang::calculateDistance(
+                    $userLat,
+                    $userLon,
+                    $cabang->latitude,
+                    $cabang->longitude
+                );
+
+                $cabangWithDistance[] = [
+                    'uid' => $cabang->uid,
+                    'nama' => $cabang->nama,
+                    'alamat' => $cabang->alamat,
+                    'map_link' => $cabang->map_link,
+                    'img_path' => $cabang->img_path,
+                    'latitude' => $cabang->latitude,
+                    'longitude' => $cabang->longitude,
+                    'distance' => round($distance, 2),
+                ];
+            }
+        }
+
+        // Sort by distance, nearest first
+        usort($cabangWithDistance, function ($a, $b) {
+            return $a['distance'] <=> $b['distance'];
+        });
+
+        return response()->json([
+            'status' => true,
+            'data' => $cabangWithDistance,
+        ]);
+    }
 }
