@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2025 at 01:07 PM
+-- Generation Time: Nov 25, 2025 at 07:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,6 +63,8 @@ CREATE TABLE `cabang` (
   `uid` varchar(40) NOT NULL,
   `nama` varchar(255) DEFAULT NULL,
   `alamat` text DEFAULT NULL,
+  `map_link` text DEFAULT NULL,
+  `img_path` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(40) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -73,9 +75,10 @@ CREATE TABLE `cabang` (
 -- Dumping data for table `cabang`
 --
 
-INSERT INTO `cabang` (`uid`, `nama`, `alamat`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-('6d8289c9-86a6-442e-bda7-3f6325074616', 'Bandung', 'Bandung', '2025-11-21 04:19:49', NULL, '2025-11-21 04:19:49', NULL),
-('bb855045-2173-4632-ae4a-43934cd297bc', 'Bintaro', 'Bintaro Jakarta Selatan', '2025-11-21 03:48:55', NULL, '2025-11-21 03:48:55', NULL);
+INSERT INTO `cabang` (`uid`, `nama`, `alamat`, `map_link`, `img_path`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+('6d8289c9-86a6-442e-bda7-3f6325074616', 'Kretek Bandung', 'Jl. Muara Baru No.25, Situsaeur, Kec. Bojongloa Kidul, Kota Bandung, Jawa Barat 40233', NULL, NULL, '2025-11-21 04:19:49', NULL, '2025-11-24 17:03:44', NULL),
+('bb855045-2173-4632-ae4a-43934cd297bc', 'Kretek Parahyangan', 'Jl. Sukamulya Indah 8 No.8, Sukagalih, Kec. Sukajadi, Kota Bandung, Jawa Barat 40163', 'https://www.google.com/maps/place/Kretek+Parahyangan+-%22International+Certified%22/@-6.8861336,107.5861939,17z/data=!3m1!4b1!4m6!3m5!1s0x2e68e7c833e8048d:0xb92684c33afd5bb8!8m2!3d-6.8861336!4d107.5861939!16s%2Fg%2F11ltjpbr_t?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D', '1764005694.png', '2025-11-21 03:48:55', NULL, '2025-11-24 17:34:54', NULL),
+('c4b1ea59-695d-446b-8919-76f6dc4176bf', 'Kretek Asli', 'Komp, Jl. Ujungberung Indah Raya No.Kav 15, RW.No 15, Cigending, Kec. Ujung Berung, Kota Bandung, Jawa Barat 40199', NULL, NULL, '2025-11-24 17:04:26', NULL, '2025-11-24 17:04:26', NULL);
 
 -- --------------------------------------------------------
 
