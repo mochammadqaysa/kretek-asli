@@ -36,7 +36,11 @@ class CabangDataTable extends DataTable
                 $html .= '</div>';
                 return $html;
             })
-            ->rawColumns(['action']);
+            ->addColumn('profile', function ($data) {
+                $image = $data->img_path == '' ? asset('img/default-avatar.png') : asset('upload/' . $data->img_path);
+                return '<img class="avatar rounded-circle" src="' . $image . '" id="preview-image" style="cursor: pointer;" onclick="showImagePreview(this.src)">';
+            })
+            ->rawColumns(['action', 'profile']);
     }
 
     /**
@@ -94,6 +98,11 @@ class CabangDataTable extends DataTable
                 ->width(60)
                 ->addClass('text-center');
         }
+        $column[] = Column::computed('profile')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center');
         $column[] = Column::make('nama');
         $column[] = Column::make('alamat')->addClass('text-wrap');
         return $column;

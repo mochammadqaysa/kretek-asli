@@ -9,6 +9,15 @@
       <input type="text" name="map_link" class="form-control" placeholder="Tautan Map" value="{{ @$data->map_link }}">
     </div>
 
+    <div class="form-group col-md-6">
+      <label>Latitude <span class="text-danger">*</span></label>
+      <input type="text" name="latitude" class="form-control" placeholder="Latitude" value="{{ @$data->latitude }}">
+    </div>
+    <div class="form-group col-md-6">
+      <label>Longitude <span class="text-danger">*</span></label>
+      <input type="text" name="longitude" class="form-control" placeholder="Longitude" value="{{ @$data->longitude }}">
+    </div>
+
     <div class="form-group col-md-12">
       <label>Alamat <span class="text-danger">*</span></label>
       <textarea class="form-control" name="alamat">{{ @$data->alamat }}</textarea>
