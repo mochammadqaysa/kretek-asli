@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\PermissionCommon;
 use App\Helpers\Utils;
 use App\Models\Appointment;
+use App\Models\Cabang;
 use App\Models\PatientMeta;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client as GuzzleClient;
@@ -25,6 +26,7 @@ class DashboardController extends Controller
         $statistics['total_cancelled_appointment'] = $totalCancelledAppointment;
 
         $listAppointment = Appointment::all();
+        $cabang = Cabang::select('uid', 'nama')->get();
         $calender = [];
         foreach ($listAppointment as $key => $value) {
             $patient = $value->patient;
@@ -47,6 +49,45 @@ class DashboardController extends Controller
         }
 
 
-        return view('pages.dashboard.admin', compact('statistics', 'calender'));
+        return view('pages.dashboard.admin', compact('statistics', 'calender', 'cabang'));
+    }
+
+    public function getDashboardStatistics(Request $request)
+    {
+        $cabangUid = $request->cabang;
+        $tanggal = $request->tanggal;
+
+        // Validasi input
+        if (!$cabangUid || ! $tanggal) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Cabang dan tanggal harus diisi'
+            ], 400);
+        }
+
+        // Query untuk mendapatkan total pelanggan dan pendapatan
+        // Sesuaikan dengan struktur database Anda
+        $appointments = Appointment::where('cabang_uid', $cabangUid)
+            ->whereDate('date_sched', $tanggal)
+            ->get();
+        $sum_pendapatan = 0;
+        foreach ($appointments as $appointment) {
+            $sum_pendapatan += $appointment->service ? $appointment->service->harga : 0;
+        }
+
+        $totalPelanggan = $appointments->count();
+        $totalPendapatan = $sum_pendapatan; // sesuaikan dengan field harga
+
+        // Format rupiah untuk total pendapatan
+        $totalPendapatanFormatted = 'Rp ' . number_format($totalPendapatan, 0, ',', '.');
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'total_pelanggan' => $totalPelanggan . " Orang",
+                'total_pendapatan' => $totalPendapatan,
+                'total_pendapatan_formatted' => $totalPendapatanFormatted
+            ]
+        ]);
     }
 }

@@ -45,6 +45,7 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
     Route::post('/appointment/cancel/{uid}', [AppointmentController::class, 'cancel'])->name('appointment.cancel');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.inventory');
+    Route::get('/dashboard/statistics', [DashboardController::class, 'getDashboardStatistics'])->name('dashboard.statistics');
     Route::resources(['user' => UserController::class]);
     Route::resources(['role' => RoleController::class]);
     Route::resources(['module' => ModuleController::class]);
@@ -90,6 +91,7 @@ Route::prefix('app')->middleware(PengadilanAuth::class)->group(function () {
     Route::prefix('select2')->group(function () {
         Route::get('/role', [RoleController::class, 'select2'])->name('select2.role');
         Route::get('/terapis', [TerapisController::class, 'select2'])->name('select2.terapis');
+        Route::get('/terapis-by-cabang/{cabang_uid}', [TerapisController::class, 'getTerapisByCabang'])->name('terapis.by.cabang');
         Route::get('/patient', [AppointmentController::class, 'select2Patient'])->name('select2.patient');
     });
 

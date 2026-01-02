@@ -380,16 +380,17 @@ use App\Helpers\Utils;
                       <label for="">Nama Lengkap *</label>
                       <input class="form-control" type="text" name="nama" placeholder="Nama Lengkap *">
                     </div>
-                    <div class="form-group-items">
+                    
+                    <div class="form-group aos-init aos-animate" data-aos="fade">
+                      <label for="kontak">Kontak (Nomor Aktif)</label>
+                      <input class="form-control" type="text" id="kontak" name="meta[kontak]" placeholder="Kontak">
+                    </div>
+                    {{-- <div class="form-group-items">
                       <div class="form-group aos-init aos-animate" data-aos="fade">
                         <label for="email">Email</label>
                         <input class="form-control" type="email" id="email" name="meta[email]" placeholder="Email">
                       </div>
-                      <div class="form-group aos-init aos-animate" data-aos="fade">
-                        <label for="kontak">Kontak (Nomor Aktif)</label>
-                        <input class="form-control" type="text" id="kontak" name="meta[kontak]" placeholder="Kontak">
-                      </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group-items">
                       <div class="form-group aos-init aos-animate" data-aos="fade">
                         <label for="tanggal_lahir">Tanggal Lahir *</label>
@@ -418,11 +419,16 @@ use App\Helpers\Utils;
                       </div>
                     </div>
                     <div class="form-group aos-init aos-animate" data-aos="fade">
-                      <label for="terapis">Pilih Terapis *</label>
-                      <select name="terapis" id="terapis" class="form-control">
-                        @foreach($terapis as $item)
-                          <option value="{{ $item->uid }}">{{ ucwords(strtolower($item->nama)) }} - Cabang {{ $item->cabang->nama }}</option>
+                      <label for="cabang">Pilih Cabang * (Cabang terdekat : <b><span id="nearest-branch-1">Mendeteksi lokasi... </span></b>)</label>
+                      <select name="cabang" id="cabang" class="form-control">
+                        @foreach($cabang as $item)
+                          <option value="{{ $item->uid }}">{{ ucwords(strtolower($item->nama)) }}</option>
                         @endforeach
+                      </select>
+                    </div>
+                    <div class="form-group aos-init aos-animate" data-aos="fade">
+                      <label for="terapis">Pilih Terapis *</label>
+                      <select name="terapis" id="terapis" class="form-control" required disabled>
                       </select>
                     </div>
                     <div class="form-group aos-init aos-animate" data-aos="fade">
@@ -545,6 +551,7 @@ use App\Helpers\Utils;
       // Mendapatkan lokasi user
       function getUserLocation() {
           const nearestBranchElement = document.getElementById('nearest-branch');
+          const nearestBranchElement1 = document.getElementById('nearest-branch-1');
           
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(
@@ -557,17 +564,21 @@ use App\Helpers\Utils;
                       if (nearest) {
                           const distanceText = formatDistance(nearest.distance);
                           nearestBranchElement.textContent = nearest.nama + ' (' + distanceText + ')';
+                          nearestBranchElement1.textContent = nearest.nama + ' (' + distanceText + ')';
                       } else {
                           nearestBranchElement.textContent = 'Tidak dapat menentukan cabang terdekat';
+                          nearestBranchElement1.textContent = 'Tidak dapat menentukan cabang terdekat';
                       }
                   },
                   function(error) {
                       console.error('Error getting location:', error);
                       nearestBranchElement.textContent = 'Mohon izinkan akses lokasi untuk melihat cabang terdekat';
+                      nearestBranchElement1.textContent = 'Mohon izinkan akses lokasi untuk melihat cabang terdekat';
                   }
               );
           } else {
               nearestBranchElement.textContent = 'Browser tidak mendukung geolocation';
+              nearestBranchElement1.textContent = 'Browser tidak mendukung geolocation';
           }
       }
 
@@ -630,6 +641,41 @@ use App\Helpers\Utils;
         })
       }
       $(document).ready(function() {
+        const allTerapis = @json($terapis);
+        $('#cabang').on('change', function() {
+          const selectedCabangUid = $(this).val();
+          const terapisSelect = $('#terapis');
+          
+          // Reset terapis select
+          terapisSelect.prop('disabled', true);
+          
+          if (!selectedCabangUid) {
+              terapisSelect.html('<option value="">-- Pilih Cabang Terlebih Dahulu --</option>');
+              return;
+          }
+          
+          // Filter terapis berdasarkan cabang yang dipilih
+          const filteredTerapis = allTerapis.filter(terapis => {
+              return terapis.cabang_uid === selectedCabangUid;
+          });
+          
+          // Build options HTML
+          let options = '';
+          
+          if (filteredTerapis.length > 0) {
+              filteredTerapis.forEach(terapis => {
+                  const terapisNama = terapis.nama.toLowerCase()
+                      .split(' ')
+                      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(' ');
+                  options += `<option value="${terapis.uid}">${terapisNama}</option>`;
+              });
+              terapisSelect.html(options).prop('disabled', false);
+          } else {
+              terapisSelect.html('<option value="">-- Tidak Ada Terapis Tersedia --</option>');
+          }
+        });
+        $('#cabang').trigger('change');
         // Saat scroll terjadi
         $(window).on('scroll', function() {
           var scrollPos = $(document).scrollTop();

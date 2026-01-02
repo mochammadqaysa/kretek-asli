@@ -28,23 +28,23 @@ use App\Helpers\Utils;
     </div>
 
     <!-- Kontak -->
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label>Kontak</label>
       <input type="text" name="meta[kontak]" id="kontak" class="form-control" placeholder="Kontak" value="{{ @$dataMeta['kontak'] }}">
     </div>
 
     <!-- Email -->
-    <div class="form-group col-md-6">
+    {{-- <div class="form-group col-md-6">
       <label>Email</label>
       <input type="text" name="meta[email]" id="email" class="form-control" placeholder="Email" value="{{ @$dataMeta['email'] }}">
-    </div>
+    </div> --}}
 
     <!-- Tanggal Lahir -->
-    <div class="form-group col-md-12">
+    {{-- <div class="form-group col-md-12">
       <label>Tanggal Lahir <span class="text-danger">*</span></label>
       <input type="text" class="form-control" name="meta[tanggal_lahir]" id="tanggal_lahir"
         placeholder="Pilih Tanggal Lahir" value="{{ @$dataMeta['tanggal_lahir'] }}" style="background-color: white;">
-    </div>
+    </div> --}}
 
     <!-- Alamat -->
     <div class="form-group col-md-12">

@@ -4,8 +4,10 @@ namespace App\DataTables;
 
 use App\Helpers\PermissionCommon;
 use App\Models\Appointment;
+use App\Models\Cabang;
 use App\Models\Patient;
 use App\Models\Service;
+use App\Models\Terapis;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -84,6 +86,47 @@ class AppointmentDataTable extends DataTable
                     $direction
                 );
             })
+            ->addColumn('terapis', function ($data) {
+                $terapis = "";
+                if (isset($data->terapis)) {
+                    $terapis = $data->terapis->nama;
+                }
+                return $terapis;
+            })
+            ->filterColumn('terapis', function ($query, $keyword) {
+                $query->whereHas('terapis', function ($q) use ($keyword) {
+                    $q->where('nama', 'like', "%{$keyword}%");
+                });
+            })
+            ->orderColumn('terapis', function ($query, $direction) {
+                $query->orderBy(
+                    Terapis::select('terapis.nama')
+                        ->whereColumn('terapis.uid', 'appointments.terapis_uid')
+                        ->limit(1),
+                    $direction
+                );
+            })
+            ->addColumn('cabang', function ($data) {
+                $cabang = "";
+                if (isset($data->terapis->cabang)) {
+                    $cabang = $data->terapis->cabang->nama;
+                }
+                return $cabang;
+            })
+            ->filterColumn('cabang', function ($query, $keyword) {
+                $query->whereHas('terapis.cabang', function ($q) use ($keyword) {
+                    $q->where('nama', 'like', "%{$keyword}%");
+                });
+            })
+            ->orderColumn('cabang', function ($query, $direction) {
+                $query->orderBy(
+                    Cabang::select('cabang.nama')
+                        ->join('terapis', 'terapis.cabang_uid', '=', 'cabang.uid')
+                        ->whereColumn('terapis.uid', 'appointments.terapis_uid')
+                        ->limit(1),
+                    $direction
+                );
+            })
 
             ->addColumn('status', function ($data) {
                 $status = "?";
@@ -150,7 +193,7 @@ class AppointmentDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom("<'row'<'col-sm-6'B><'col-sm-3'f><'col-sm-3'l>> <'row'<'col-sm-12'tr>><'row'<'col-sm-5'i><'col-sm-7'p>>")
-            ->orderBy(3)
+            ->orderBy(5)
             ->scrollY(350)
             // ->selectStyleSingle()
             ->buttons($button);
@@ -172,6 +215,8 @@ class AppointmentDataTable extends DataTable
                 ->addClass('text-center');
         }
         $column[] = Column::make('patient')->title('Nama Pasien');
+        $column[] = Column::make('terapis')->title('Nama Terapis');
+        $column[] = Column::make('cabang')->title('Cabang Praktik');
         $column[] = Column::make('service')->title('Layanan');
         $column[] = Column::make('date_sched')->title('Schedule');
         $column[] = Column::make('keluhan');

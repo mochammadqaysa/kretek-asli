@@ -228,4 +228,15 @@ class TerapisController extends Controller
         }
         return $res;
     }
+
+    public function getTerapisByCabang($cabang_uid)
+    {
+        $terapis = Terapis::where('cabang_uid', $cabang_uid)
+            ->get(['uid', 'nama']);
+
+        return response()->json([
+            'status' => true,
+            'data' => $terapis
+        ]);
+    }
 }

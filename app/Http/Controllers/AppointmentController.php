@@ -70,7 +70,7 @@ class AppointmentController extends Controller
             'nama' => 'required',
             'meta' => 'required|array',
             'meta.jenis_kelamin' => 'required',
-            'meta.tanggal_lahir' => 'required',
+            // 'meta.tanggal_lahir' => 'required',
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'service' => 'required',
@@ -79,7 +79,7 @@ class AppointmentController extends Controller
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
-            'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
+            // 'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
             'service.required' => 'Layanan harus dipilih',
@@ -162,7 +162,8 @@ class AppointmentController extends Controller
                 'meta_value' => $data['nama'],
             ];
             foreach ($data['meta'] as $key => $value) {
-                if (in_array($key, ['jenis_kelamin', 'kontak', 'email', 'tanggal_lahir', 'alamat'])) {
+                // if (in_array($key, ['jenis_kelamin', 'kontak', 'email', 'tanggal_lahir', 'alamat'])) {
+                if (in_array($key, ['jenis_kelamin', 'kontak', 'alamat'])) {
                     $insertMetas[] = [
                         'patient_uid' => $trxPatient->uid,
                         'meta_field' => $key,
@@ -179,6 +180,7 @@ class AppointmentController extends Controller
                     'keluhan' => $data['keluhan'],
                     'date_sched' => $data['appointment_date'],
                     'service_uid' => $data['service'],
+                    'cabang_uid' => $data['cabang'],
                     'terapis_uid' => $data['terapis'],
                     'status' => '1',
                     'created_by' => auth()->user()->uid,
@@ -276,7 +278,7 @@ class AppointmentController extends Controller
             'nama' => 'required',
             'meta' => 'required|array',
             'meta.jenis_kelamin' => 'required',
-            'meta.tanggal_lahir' => 'required',
+            // 'meta.tanggal_lahir' => 'required',
             'keluhan' => 'required',
             'appointment_date' => 'required',
             'service' => 'required',
@@ -286,7 +288,7 @@ class AppointmentController extends Controller
         ], [
             'nama.required' => 'Nama Lengkap harus diisi',
             'meta.jenis_kelamin.required' => 'Jenis Kelamin harus dipilih',
-            'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
+            // 'meta.tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
             'keluhan.required' => 'Keluhan harus diisi',
             'appointment_date.required' => 'Tanggal Janji Temu harus diisi',
             'service.required' => 'Layanan harus dipilih',
@@ -364,7 +366,8 @@ class AppointmentController extends Controller
                 'meta_value' => $formData['nama'],
             ];
             foreach ($formData['meta'] as $key => $value) {
-                if (in_array($key, ['jenis_kelamin', 'kontak', 'email', 'tanggal_lahir', 'alamat'])) {
+                // if (in_array($key, ['jenis_kelamin', 'kontak', 'email', 'tanggal_lahir', 'alamat'])) {
+                if (in_array($key, ['jenis_kelamin', 'kontak', 'alamat'])) {
                     $insertMetas[] = [
                         'patient_uid' => $patient->uid,
                         'meta_field' => $key,
@@ -380,8 +383,8 @@ class AppointmentController extends Controller
                 $appointment->keluhan = $formData['keluhan'];
                 $appointment->date_sched = $formData['appointment_date'];
                 $appointment->service_uid = $formData['service'];
-                $appointment->terapis_uid = $formData['terapis'];
                 $appointment->cabang_uid = $formData['cabang'];
+                $appointment->terapis_uid = $formData['terapis'];
                 // $appointment->status = $formData['status'];
                 $appointment->save();
 
@@ -505,8 +508,8 @@ class AppointmentController extends Controller
                 'nama' => $patient->nama,
                 'jenis_kelamin' => $metaData['jenis_kelamin'] ?? '',
                 'kontak' => $metaData['kontak'] ?? '',
-                'email' => $metaData['email'] ?? '',
-                'tanggal_lahir' => $metaData['tanggal_lahir'] ?? '',
+                // 'email' => $metaData['email'] ?? '',
+                // 'tanggal_lahir' => $metaData['tanggal_lahir'] ?? '',
                 'alamat' => $metaData['alamat'] ?? '',
             ];
         });

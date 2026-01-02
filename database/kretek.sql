@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2025 at 03:12 AM
+-- Generation Time: Jan 02, 2026 at 10:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -31,6 +31,7 @@ CREATE TABLE `appointments` (
   `uid` varchar(40) NOT NULL,
   `patient_uid` varchar(40) DEFAULT NULL,
   `service_uid` varchar(40) DEFAULT NULL,
+  `cabang_uid` varchar(40) DEFAULT NULL,
   `terapis_uid` varchar(40) DEFAULT NULL,
   `date_sched` datetime NOT NULL,
   `keluhan` text DEFAULT NULL,
@@ -43,15 +44,9 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`uid`, `patient_uid`, `service_uid`, `terapis_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
-('0cbfa882-a8f2-43a3-8a0f-00c8633f86c7', 'bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-24 08:30:00', 'sakit', 1, '2025-11-22 18:13:51', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('456ae502-d5f9-4bb7-bb2c-2fb0acbaf40a', '7a2a2d8a-829f-473c-972e-c6c0b42923f8', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-17 20:00:00', 'loro awak', 1, '2025-07-17 07:37:01', NULL),
-('6085a123-615e-4873-953e-9c952946d63c', '7b7f8c3f-630a-4657-9bf5-b24b9b31f816', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-17 20:00:00', 'loroo', 1, '2025-07-17 07:38:32', NULL),
-('88e00478-ecce-46f9-8d23-29408700fd7f', 'b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-24 09:00:00', 'sakiut', 1, '2025-11-22 18:35:40', NULL),
-('c809f61e-de58-4eb2-86c0-631fd59457e2', '02b8947f-ba03-400a-88c9-eaa6fe39fb97', '46c68fb3-9ec0-4f56-b50b-68004372d64f', NULL, '2025-07-17 20:00:00', 'rareti', 1, '2025-07-17 07:39:15', NULL),
-('ec4ac523-eeea-48a3-acd7-92f6e01f0979', 'e999f450-411d-42ca-97fb-29cbcb318e67', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', NULL, '2025-07-17 13:00:00', 'pinggang sakit', 1, '2025-07-15 04:49:31', NULL),
-('ec9a1125-5bf0-48bc-b961-c22288730de6', 'da0c31b7-8955-4c0f-a920-f20285688f79', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2025-11-24 08:00:00', 'sakit', 1, '2025-11-22 18:12:01', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('fdeb4ab8-c6bd-483d-8e3c-310bc74c1561', '8e90d224-f6bf-4e78-915e-45f830b09702', '95b73568-82f9-4b3f-94a7-f1f0f8b39435', NULL, '2025-07-15 15:30:00', 'pinggang sakit', 1, '2025-07-15 05:30:26', NULL);
+INSERT INTO `appointments` (`uid`, `patient_uid`, `service_uid`, `cabang_uid`, `terapis_uid`, `date_sched`, `keluhan`, `status`, `created_at`, `created_by`) VALUES
+('4a4ee22d-e6e3-4bb2-9a84-386f73909f71', '0a29ee10-0875-48eb-bfee-ceedf15fb96e', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', '6d8289c9-86a6-442e-bda7-3f6325074616', 'a6d38b93-44fe-4e4b-a748-4cb058f79cad', '2026-01-02 13:00:00', 'gering', 1, '2026-01-02 02:01:12', 'a9467865-37c1-4104-bd63-b26a33c915db'),
+('c52587c1-6f9e-41a9-9b62-243bea4d3808', '967dbd30-6636-4226-b94f-cb1ec3980e1a', '3a34e957-ffd2-4c48-9f31-8f855828d9c7', 'bb855045-2173-4632-ae4a-43934cd297bc', '50d0b01d-4b63-4391-9ae5-e04de9fe0244', '2026-01-02 13:30:00', 'sakit', 1, '2026-01-02 02:01:48', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
 
@@ -255,7 +250,6 @@ CREATE TABLE `patients` (
 --
 
 INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'kae', '2025-07-17 07:39:15', NULL),
 ('04173860-5611-45e3-8a25-57c35e460fd9', 'indra', '2025-07-19 12:58:14', NULL),
 ('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'Rifki Pratama OKtavian', '2025-06-11 06:03:21', NULL),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'kowe', '2025-07-17 07:37:49', NULL),
@@ -263,17 +257,10 @@ INSERT INTO `patients` (`uid`, `nama`, `created_at`, `created_by`) VALUES
 ('5414690d-54a8-4c0f-8de2-cdf09194dad2', 'toni', '2025-07-19 12:58:55', NULL),
 ('60ccec07-d962-49e0-9937-936d2126bda2', 'MAGNUM', '2025-11-21 08:26:09', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'angga', '2025-07-19 12:57:28', NULL),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'Aku', '2025-07-17 07:37:01', NULL),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'koen', '2025-07-17 07:38:32', NULL),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'Rifki Pratama OKtavian', '2025-07-15 05:30:26', NULL),
 ('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'Rifki Pratama OKtavian', '2025-06-11 06:03:14', NULL),
 ('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'Mochammad Qaysa Al-Haq', '2025-06-11 02:56:46', 'a9467865-37c1-4104-bd63-b26a33c915db'),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'Fajar', '2025-11-22 18:35:02', NULL),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'Fajar', '2025-11-22 18:35:40', NULL),
-('b5e7d2a7-0d0b-48f8-abdb-bc4b79d54bee', 'ABS', '2025-11-21 08:09:30', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'Fauzan', '2025-11-22 18:13:51', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'Ahdim', '2025-11-22 18:12:01', 'a9467865-37c1-4104-bd63-b26a33c915db'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'indra permana', '2025-07-15 04:49:31', NULL);
+('b5e7d2a7-0d0b-48f8-abdb-bc4b79d54bee', 'ABS', '2025-11-21 08:09:30', 'a9467865-37c1-4104-bd63-b26a33c915db');
 
 -- --------------------------------------------------------
 
@@ -298,54 +285,12 @@ INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
 ('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'tanggal_lahir', '2003-01-11'),
 ('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'jenis_kelamin', 'PRIA'),
 ('9bd686f8-f720-4a09-a6dc-8e40f9317bec', 'alamat', NULL),
-('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'nama', 'Rifki Pratama OKtavian'),
-('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'email', 'rifki@gmail.com'),
-('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'kontak', '081212341234'),
-('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'tanggal_lahir', '2019-02-11'),
-('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'jenis_kelamin', 'PRIA'),
-('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'alamat', 'dekat unibi'),
-('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'nama', 'Rifki Pratama OKtavian'),
-('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'email', 'rifki@gmail.com'),
-('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'kontak', '081212341234'),
-('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'tanggal_lahir', '2019-02-11'),
-('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'jenis_kelamin', 'PRIA'),
-('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'alamat', 'dekat unibi'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'nama', 'indra permana'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'email', 'indra@gmail.com'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'kontak', '0882971978198'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'tanggal_lahir', '2000-11-17'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'jenis_kelamin', 'PRIA'),
-('e999f450-411d-42ca-97fb-29cbcb318e67', 'alamat', 'kircon'),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'nama', 'Rifki Pratama OKtavian'),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'email', 'rifki@gmail.com'),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'kontak', '087575678'),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'tanggal_lahir', '2001-01-25'),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'jenis_kelamin', 'PRIA'),
-('8e90d224-f6bf-4e78-915e-45f830b09702', 'alamat', 'kircon'),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'nama', 'Aku'),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'email', 'hbsb@gmail.com'),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'kontak', '08820823727'),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'tanggal_lahir', '1999-06-11'),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'jenis_kelamin', 'PRIA'),
-('7a2a2d8a-829f-473c-972e-c6c0b42923f8', 'alamat', 'kircon'),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'nama', 'kowe'),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'email', 'kowe@gmail.com'),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'kontak', '06876543456'),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'tanggal_lahir', '1995-07-28'),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'jenis_kelamin', 'PRIA'),
 ('4797c859-e113-471b-bf1c-5525ed906f84', 'alamat', 'bubat'),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'nama', 'koen'),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'email', 'koen2gmail.com'),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'kontak', '067898574576'),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'tanggal_lahir', '1998-07-21'),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'jenis_kelamin', 'PRIA'),
-('7b7f8c3f-630a-4657-9bf5-b24b9b31f816', 'alamat', 'uber'),
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'nama', 'kae'),
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'email', 'kae@gmail.com'),
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'kontak', '0656789'),
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'tanggal_lahir', '1998-04-02'),
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'jenis_kelamin', 'PRIA'),
-('02b8947f-ba03-400a-88c9-eaa6fe39fb97', 'alamat', 'cibiru'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'nama', 'angga'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'email', 'angga@gmail.com'),
 ('6de95bb7-078b-4a5f-a17f-c4993fcc02ca', 'kontak', '08765678'),
@@ -382,30 +327,22 @@ INSERT INTO `patient_metas` (`patient_uid`, `meta_field`, `meta_value`) VALUES
 ('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'tanggal_lahir', '2025-11-21'),
 ('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'jenis_kelamin', 'PRIA'),
 ('52235a23-911e-4fc6-99c6-5bc92a4f4c20', 'alamat', NULL),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'nama', 'Ahdim'),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'jenis_kelamin', 'PRIA'),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'kontak', NULL),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'email', NULL),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'tanggal_lahir', '2025-11-23'),
-('da0c31b7-8955-4c0f-a920-f20285688f79', 'alamat', NULL),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'nama', 'Fauzan'),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'jenis_kelamin', 'PRIA'),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'kontak', NULL),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'email', NULL),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'tanggal_lahir', '2025-11-23'),
-('bb2b9e8e-b227-4f2d-8c73-d03dbb2890ad', 'alamat', NULL),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'nama', 'Fajar'),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'email', NULL),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'kontak', NULL),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'tanggal_lahir', '2025-11-23'),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'jenis_kelamin', 'PRIA'),
 ('a9f1d393-9b90-47bc-b29b-dd024f20066b', 'alamat', NULL),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'nama', 'Fajar'),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'email', NULL),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'kontak', NULL),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'tanggal_lahir', '2025-11-23'),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'jenis_kelamin', 'PRIA'),
-('b1f7bdf2-daf3-4d88-9c2c-0806fe53074d', 'alamat', NULL);
+('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'nama', 'Rifki Pratama OKtavian'),
+('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'jenis_kelamin', 'PRIA'),
+('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'kontak', '081212341234'),
+('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'email', 'rifki@gmail.com'),
+('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'tanggal_lahir', '2019-02-11'),
+('0a29ee10-0875-48eb-bfee-ceedf15fb96e', 'alamat', 'dekat unibi'),
+('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'nama', 'Rifki Pratama OKtavian'),
+('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'jenis_kelamin', 'PRIA'),
+('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'kontak', '081212341234'),
+('967dbd30-6636-4226-b94f-cb1ec3980e1a', 'alamat', 'dekat unibi');
 
 -- --------------------------------------------------------
 
@@ -654,7 +591,8 @@ ALTER TABLE `appointments`
   ADD PRIMARY KEY (`uid`),
   ADD KEY `patient_uid` (`patient_uid`),
   ADD KEY `appointments_ibfk_2` (`service_uid`),
-  ADD KEY `terapis_uid` (`terapis_uid`);
+  ADD KEY `terapis_uid` (`terapis_uid`),
+  ADD KEY `cabang_uid` (`cabang_uid`);
 
 --
 -- Indexes for table `cabang`
@@ -836,6 +774,7 @@ ALTER TABLE `users`
 ALTER TABLE `appointments`
   ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_uid`) REFERENCES `patients` (`uid`) ON DELETE CASCADE,
   ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`service_uid`) REFERENCES `services` (`uid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cabang_uid` FOREIGN KEY (`cabang_uid`) REFERENCES `cabang` (`uid`) ON DELETE CASCADE,
   ADD CONSTRAINT `terapis_uid` FOREIGN KEY (`terapis_uid`) REFERENCES `terapis` (`uid`) ON DELETE CASCADE;
 
 --

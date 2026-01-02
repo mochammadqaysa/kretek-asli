@@ -131,6 +131,71 @@
 </div>
 <div class="row">
   <div class="col-xl-12">
+    <div class="card ">
+      <div class="card-header bg-transparent">
+        <div class="row align-items-center">
+          <div class="col">
+            <h6 class="text-uppercase text-muted ls-1 mb-1">Statistik</h6>
+            <h5 class="h3  mb-0"><i class="fas fa-chart-pie"></i> Data Perolehan Berdasarkan Cabang</h5>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form action="" method="POST" id="formKurs">
+          @csrf
+          <div class="row align-items-center" id="form-list">
+            <div class="form-group col-md-6">
+              <label>Pilih Cabang <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <select class="form-control select2-cabang" name="cabang" id="cabang" aria-describedby="validationPeriod" >
+                  <option value="">Pilih Cabang</option>
+                  @foreach($cabang as $cb)
+                    <option value="{{ $cb->uid }}">{{ $cb->nama }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tanggal <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="text" class="form-control" name="tgl_periode" id="tgl_periode" style="background-color: white;" placeholder="Pilih Tanggal" aria-describedby="validationPeriod" />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fas fa-calendar"></i>
+                  </span>
+                </div>
+                <div id="validationPeriod" class="invalid-feedback">
+                  Mohon isi Tanggal terlebih dahulu
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- Chart -->
+        <div class="row justify-content-around">
+          <div class="col-md-6">
+            <div class="card bg-gradient-warning text-white">
+              <div class="card-header bg-gradient-warning">Total Pelanggan</div>
+              <div class="card-body">
+                <h1 class="text-white" id="total-pelanggan">-</h1>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card bg-gradient-warning text-white">
+              <div class="card-header bg-gradient-warning">Total Pendapatan</div>
+              <div class="card-body">
+                <h1 class="text-white" id="total-pendapatan">Rp. -</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-12">
     <div class="card card-calendar">
       <div class="card-header bg-transparent">
         <div class="row align-items-center">
@@ -328,6 +393,76 @@
 			e.preventDefault();
 			$('#schedule-calendar').fullCalendar('prev');
 		});
+
+    $('.select2-cabang').select2({
+      placeholder: "Pilih Cabang",
+      allowClear: true,
+    });
+
+    $('#tgl_periode').flatpickr({
+      defaultDate : 'today',
+      maxDate: "today",
+      dateFormat: "Y-m-d",
+      onChange: (selectedDates, dateStr, instance) => {
+        loadStatistics();
+      }
+    })
+
+    $('#cabang').on('change', function() {
+      loadStatistics();
+    });
+
+    function loadStatistics() {
+      const cabangUid = $('#cabang').val();
+      const tanggal = $('#tgl_periode').val();
+
+      // Validasi input
+      if (! cabangUid || !tanggal) {
+        // Reset tampilan jika belum lengkap
+        $('#total-pelanggan').text('0');
+        $('#total-pendapatan').text('Rp 0');
+        return;
+      }
+
+      // Show loading state
+      $('#total-pelanggan').html('<i class="fas fa-spinner fa-spin"></i>');
+      $('#total-pendapatan').html('<i class="fas fa-spinner fa-spin"></i>');
+
+      // Ajax request
+      $.ajax({
+        url: '{{ route("dashboard.statistics") }}',
+        type: 'GET',
+        data: {
+          cabang: cabangUid,
+          tanggal:  tanggal
+        },
+        success: function(response) {
+          if (response.status) {
+            $('#total-pelanggan').text(response.data.total_pelanggan);
+            $('#total-pendapatan').text(response.data.total_pendapatan_formatted);
+          } else {
+            $('#total-pelanggan').text('0');
+            $('#total-pendapatan').text('Rp 0');
+            Ryuna.noty('warning', 'Peringatan', response.message || 'Tidak ada data');
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error loading statistics:', error);
+          $('#total-pelanggan').text('-');
+          $('#total-pendapatan').text('-');
+          
+          if (xhr.responseJSON && xhr.responseJSON.message) {
+            Ryuna.noty('error', 'Error', xhr.responseJSON.message);
+          } else {
+            Ryuna.noty('error', 'Error', 'Gagal memuat statistik');
+          }
+        }
+      });
+    }
+
+    if ($('#cabang').val() && $('#tgl_periode').val()) {
+      loadStatistics();
+    }
   });
 </script>
 @endsection
