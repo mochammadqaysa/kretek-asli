@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $statistics['total_confirmed_appointment'] = $totalConfirmedAppointment;
         $statistics['total_cancelled_appointment'] = $totalCancelledAppointment;
 
-        $listAppointment = Appointment::all();
+        $listAppointment = Appointment::where('status', '1')->get();
         $cabang = Cabang::select('uid', 'nama')->get();
         $calender = [];
         foreach ($listAppointment as $key => $value) {

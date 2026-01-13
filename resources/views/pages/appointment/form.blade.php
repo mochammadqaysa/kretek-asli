@@ -93,6 +93,21 @@ use App\Helpers\Utils;
         placeholder="Pilih Tanggal Janji Temu"
         value="{{ @$data->date_sched }}" style="background-color: white;">
     </div>
+    <div class="form-group col-md-12">
+      <label>Status <span class="text-danger">*</span></label>
+      @php
+        $statusList = [
+          "0" => "Belum Berkunjung",
+          "1" => "Sudah Berkunjung",
+        ];
+      @endphp
+      <select name="status" class="form-control select2" id="txtStatus">
+        @foreach($statusList as $key => $value)
+          <option value="{{ $key }}" {{ @$data->status == $key ? 'selected' : '' }}>{{ $value }}</option>
+        @endforeach
+      </select>
+      <div id="validationtxtStatus" class="invalid-feedback"></div>
+    </div>
 </div>
 
 <script>

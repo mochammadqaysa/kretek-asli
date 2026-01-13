@@ -134,10 +134,10 @@ class AppointmentDataTable extends DataTable
                     $status = $data->status;
                     switch ($status) {
                         case '0':
-                            $status = '<span class="badge bg-info text-white">Pending</span>';
+                            $status = '<span class="badge bg-info text-white">Belum Berkunjung</span>';
                             break;
                         case '1':
-                            $status = '<span class="badge bg-success text-white">Dikonfirmasi</span>';
+                            $status = '<span class="badge bg-success text-white">Sudah Berkunjung</span>';
                             break;
                         case '2':
                             $status = '<span class="badge bg-danger text-white">Ditolak</span>';

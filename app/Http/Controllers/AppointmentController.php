@@ -182,7 +182,8 @@ class AppointmentController extends Controller
                     'service_uid' => $data['service'],
                     'cabang_uid' => $data['cabang'],
                     'terapis_uid' => $data['terapis'],
-                    'status' => '1',
+                    'status' => $data['status'] ?? '0',
+                    // 'status' => '1',
                     'created_by' => auth()->user()->uid,
                 ]);
                 if ($appointment) {
@@ -385,7 +386,7 @@ class AppointmentController extends Controller
                 $appointment->service_uid = $formData['service'];
                 $appointment->cabang_uid = $formData['cabang'];
                 $appointment->terapis_uid = $formData['terapis'];
-                // $appointment->status = $formData['status'];
+                $appointment->status = $formData['status'];
                 $appointment->save();
 
                 return response([

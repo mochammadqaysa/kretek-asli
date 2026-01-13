@@ -146,7 +146,7 @@ class LandingPageController extends Controller
                     'terapis_uid' => $data['terapis'],
                     // 'cabang_uid' => $data['cabang'],
                     'keluhan' => $data['keluhan'],
-                    'status' => '1',
+                    'status' => '0',
                 ]);
                 if ($appointment) {
                     return response([
