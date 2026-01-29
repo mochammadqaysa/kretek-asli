@@ -240,7 +240,7 @@ use App\Helpers\Utils;
                 <div class="room-item__btns"><a class="room-item__btn" href="#hubungi"><i class="svg-image-btn-arrow"></i></a></div>
               </div>
             </div>
-            <div class="room-item grid-item">
+            {{-- <div class="room-item grid-item">
               <div class="room-item__img"><img src="{{asset('img/menu6.png')}}" alt=""></div>
               <div class="room-item__cnt">
                 <div class="room-item__info">
@@ -249,8 +249,8 @@ use App\Helpers\Utils;
                 </div>
                 <div class="room-item__btns"><a class="room-item__btn" href="#hubungi"><i class="svg-image-btn-arrow"></i></a></div>
               </div>
-            </div>
-            <div class="room-item grid-item">
+            </div> --}}
+            {{-- <div class="room-item grid-item">
               <div class="room-item__img"><img src="{{asset('img/menu7.png')}}" alt=""></div>
               <div class="room-item__cnt">
                 <div class="room-item__info">
@@ -259,8 +259,8 @@ use App\Helpers\Utils;
                 </div>
                 <div class="room-item__btns"><a class="room-item__btn" href="#hubungi"><i class="svg-image-btn-arrow"></i></a></div>
               </div>
-            </div>
-            <div class="room-item grid-item">
+            </div> --}}
+            {{-- <div class="room-item grid-item">
               <div class="room-item__img"><img src="{{asset('img/menu8.png')}}" alt=""></div>
               <div class="room-item__cnt">
                 <div class="room-item__info">
@@ -269,7 +269,7 @@ use App\Helpers\Utils;
                 </div>
                 <div class="room-item__btns"><a class="room-item__btn" href="#hubungi"><i class="svg-image-btn-arrow"></i></a></div>
               </div>
-            </div>
+            </div> --}}
           </div>
         </section>
         <section class="section section--gray news" id="artikel">
